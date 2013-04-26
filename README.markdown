@@ -106,7 +106,7 @@ Both `$(selector).scrollWatch(options);` and `$(menuSelector).scrollWatchMenu(se
       <td>
         Determines how the active section is chosen <ul>
           <li>
-            <strong></strong> - section that is occupying the largest portion of the view is chosen
+            <strong>0</strong> - section that is occupying the largest portion of the view is chosen
           </li>
           <li>
             <strong>1</strong> - section that is directly in intersection or nearest to the focus line is chosen
@@ -170,6 +170,20 @@ Both `$(selector).scrollWatch(options);` and `$(menuSelector).scrollWatchMenu(se
       
       <td>
         Percentage of the view height that determines position of the focus line.
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        focusOffset
+      </th>
+      
+      <td>
+        0
+      </td>
+      
+      <td>
+        Offset added to the focus line position after <strong>focusRatio</strong> is applied. (Set <strong>focusRatio</strong> to zero if you wish to use the  <strong>focusOffset</strong> only).
       </td>
     </tr>
 

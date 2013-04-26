@@ -249,7 +249,7 @@ void function ($) {
                         // choose using intersection or distance from the focus line
                         case 1:
 
-                            var viewFocusLineOffset = viewTop + (viewBottom - viewTop) * options.focusRatio;
+                            var viewFocusLineOffset = viewTop + (viewBottom - viewTop) * options.focusRatio + options.focusOffset;
                             
                             if (options.debugFocusLine) {
                                 debugFocusLine.style.top = Math.round(viewFocusLineOffset) + 'px';
@@ -468,6 +468,7 @@ void function ($) {
         viewMarginTop: 0,
         viewMarginBottom: 0,
         focusRatio: 0.38196601125010515,
+        focusOffset: 0,
         debugFocusLine: false
     };
     $.fn.scrollWatchMenu.defaults = {
