@@ -155,7 +155,6 @@ void function ($) {
 
             // collect focus candidates
             var focusCandidates = [], focusIntersection, focusHeight;
-            //console.log(viewTop, viewBottom, scrollerVisibleHeight, scrollerFullHeight);
             if (scrollerFullHeight - viewBottom < 5) {
 
                 // always choose last section if the view is near the end

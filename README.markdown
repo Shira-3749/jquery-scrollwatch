@@ -41,6 +41,12 @@ This method makes it easy to show active section in a navigation menu.
     });
     </pre>
 
+## Required CSS
+
+The following CSS rule is required for scroll calculations to work properly:
+
+    html, body {height: 100%;}
+
 ## Return value
 
 Both `$(selector).scrollWatch(options);` and `$(menuSelector).scrollWatchMenu(sectionSelector, options);` return `false` on failure or an object with following properties:

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>jQuery ScrollWatch 1.2</title>
 <style type="text/css">
-html,body {height:100%;}
+html, body {height: 100%;}
 body {padding: 62px 1em 1em 1em; font-family: sans-serif;}
 h1 {margin-top: 0; font-size: 2em;}
 h2 {margin-top: 0; font-size: 1.5em;}
@@ -31,6 +31,7 @@ table th {text-align: left;}
 <ul class="menu">
   <li><a href="#intro">Introduction</a></li>
   <li><a href="#usage">Usage</a></li>
+  <li><a href="#required_css">Required CSS</a></li>
   <li><a href="#options">Options</a></li>
   <li><a href="#return_value">Return value</a></li>
   <li><a href="#custom_scroller">Custom scroller</a></li>
@@ -82,6 +83,18 @@ table th {text-align: left;}
         });
 
     });
+    </pre>
+
+</div>
+
+<div class="section" id="required_css">
+
+    <h2>Required CSS</h2>
+
+    <p>The following CSS rule is required for scroll calculations to work properly:</p>
+
+    <pre>
+    html, body {height: 100%;}
     </pre>
 
 </div>
@@ -278,6 +291,7 @@ $(window).load(function () {
     // main menu
     $('body > ul.menu').scrollWatchMenu('div.section', {
         resolutionMode: 1, // use focus line mode
+        focusRatio: 0.2, // seciton intersecting or closest to a line at 20% of the view is considered active
         viewMarginTop: 53,  // part of the view is covered by the fixed navigation menu
         menuScrollOffset: -120 // anchors scroll this much above the actual position
     });
