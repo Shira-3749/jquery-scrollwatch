@@ -80,7 +80,7 @@ The following CSS rule is required for scroll calculations to work properly.
 Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with following methods:
 
 - **update()** - recalculate section boundaries and update current focus
-  -  should be called on the when size of contents in the scroller element (usually entire page) change dynamically (ajax-loaded content, open/close features etc.)
+  -  should be called when size of the contents in the scroller element (usually entire page) change dynamically (ajax-loaded content, open/close features etc.)
 - **updateFocus()** - update current focus only
 - **unbind()** - unbind and disable the ScrollWatch instance
 - **pause()** - suspend focus update
@@ -189,32 +189,32 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
     <tr>
       <th>topDownWeight</th>
       <td>0</td>
-      <td>Extra focus height added to the section if it preceedes the other (used in resolutionMode 0 only).</td>
+      <td>Extra focus height added to the section if it preceedes the other (used in **resolutionMode** 0 only).</td>
     </tr>
     
     <tr>
       <th>viewMarginTop</th>
       <td>0</td>
-      <td>Height of an area at the top of the view to be excluded (e.g. navigation menu with position: fixed).</td>
+      <td>Height of an area at the top of the view to be excluded (e.g. a fixed navigation menu).</td>
     </tr>
     
     <tr>
       <th>viewMarginBottom</th>
       <td>0</td>
-      <td>Height of an area at the bottom of the view to be excluded (e.g. navigation menu with position: fixed).</td>
+      <td>Height of an area at the bottom of the view to be excluded (e.g. a fixed navigation menu).</td>
     </tr>
     
     <tr>
       <th>multiMode</th>
       <td>false</td>
-      <td>Enabling this turns 'focus' argument of callback into an array and no resolution is performed.</td>
+      <td>Enabling this turns the <code>focus</code> argument of <strong>callback</strong> into an array and no resolution is performed.</td>
     </tr>
   </tbody>
 </table>
 
 ### Menu options
 
-These options are active only when `$(menuSelector).scrollWatchMenu(sectionSelector, options);` is used.
+These options are active only when `$().scrollWatchMenu()` is used.
 
 <table>
   <thead>
