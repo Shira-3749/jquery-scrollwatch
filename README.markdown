@@ -12,7 +12,7 @@ See [demo.html](demo.html) for an example.
 
 ## Browser support
 
-Tested in Firefox, Google Chrome, Safari, Opera and MSIE 7+
+Tested in Mozilla Firefox, Google Chrome, Safari, Opera and MSIE 7+
 
 ## Known limitations
 
