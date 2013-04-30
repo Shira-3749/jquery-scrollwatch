@@ -1,14 +1,11 @@
 /**
- * ScrollWatch 1.2 / jQuery plugin
+ * ScrollWatch 1.3 / jQuery plugin
  * Support: all modern browsers and MSIE 7+
  * @author ShiraNai7 <shira.cz>
  */
 void function ($) {
 
     "use_strict";
-
-    var isWebkit = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-            || /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
 
     /**
      * Get Y position of DOM element, relative to given offset parent
@@ -90,13 +87,13 @@ void function ($) {
             scrollerIsWindow = (window === options.scroller),
             scrollerVisibleHeight,
             scrollerFullHeight,
-            debugFocusLine,
+            debugFocusLine = null,
             paused = false
         ;
 
-        // abort if no elements
+        // error if no elements
         if (0 === elems.length) {
-            return false;
+            throw new Error('No sections found');
         }
 
         /**
@@ -120,7 +117,6 @@ void function ($) {
         function computeScrollerHeight()
         {
             if (scrollerIsWindow) {
-                //scrollerHeight = $(document.body).height();
                 scrollerVisibleHeight = $(document.body).height();
                 scrollerFullHeight = document.getElementsByTagName('html')[0].scrollHeight;
             } else {
@@ -141,7 +137,6 @@ void function ($) {
             // determine current view
             var
                 viewTop = scroller.scrollTop(),
-                //viewBottom = viewTop + scroller.height()
                 viewBottom = viewTop + scrollerVisibleHeight
             ;
 
@@ -250,8 +245,11 @@ void function ($) {
                         case 1:
 
                             var viewFocusLineOffset = viewTop + (viewBottom - viewTop) * options.focusRatio + options.focusOffset;
-                            
+
                             if (options.debugFocusLine) {
+                                if (null === debugFocusLine) {
+                                    createDebugFocusLine();
+                                }
                                 debugFocusLine.style.top = Math.round(viewFocusLineOffset) + 'px';
                             }
 
@@ -306,17 +304,21 @@ void function ($) {
             computeScrollerHeight();
             updateFocus();
         }
-        
-        // create focus ratio debug line
-        if (options.debugFocusLine && 1 === options.resolutionMode) {
+
+        /**
+         * Create debug focus line
+         */
+        function createDebugFocusLine()
+        {
             debugFocusLine = document.createElement('div');
-            debugFocusLine.style.width = '100%';
+            debugFocusLine.style.width = '10%';
             debugFocusLine.style.height = '0';
             debugFocusLine.style.position = 'absolute';
             debugFocusLine.style.left = '0';
             debugFocusLine.style.top = '0';
             debugFocusLine.style.borderTop = '1px solid yellow';
             debugFocusLine.style.borderBottom = '1px solid red';
+            debugFocusLine.style.borderRight = '3px solid black';
             debugFocusLine.style.zIndex = '9999';
             debugFocusLine = $(debugFocusLine).appendTo(scrollerIsWindow ? document.body : scroller)[0];
         }
@@ -343,12 +345,19 @@ void function ($) {
             update: function () {
                 updateAll();
             },
+            updateFocus: function () {
+                updateFocus();
+            },
             pause: function () {
                 paused = true;
             },
             resume: function () {
                 paused = false;
                 updateFocus();
+            },
+            setOption: function (name, value) {
+                options[name] = value;
+                return this;
             }
         };
 
@@ -362,15 +371,20 @@ void function ($) {
      * @return object|bool
      */
     $.fn.scrollWatchMenu = function(sections, options) {
+
         var
+            w = window,
+            isWebkit = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+                || /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor),
             items,
             activeItem = null,
-            scroller = $(isWebkit ? document.body : 'html'),
+            windowScroller = $(isWebkit ? document.body : 'html'),
+            actualScroller,
             scrollWatch
         ;
 
         // compose options
-        options = $.extend({}, $.fn.scrollWatch.defaults, $.fn.scrollWatchMenu.defaults, options, {
+        options = $.extend({}, $.fn.scrollWatchMenu.defaults, options, {
             callback: function (focus) {
                 if (focus.index < items.length && focus.index !== activeItem) {
                     if (null !== activeItem) {
@@ -382,80 +396,150 @@ void function ($) {
             }
         });
 
-        // find items
-        items = $(this)[('*' === options.menuItemSelector) ? 'children' : 'find'](options.menuItemSelector);
-
-        // initial hash
-        if (0 !== options.menuScrollOffset && window.location.hash) {
-            $('a', items).each(function () {
-                if (this.hash === window.location.hash) {
-                    var
-                        hash = this.hash.substr(1),
-                        target = $('#' + hash + ', ' + '[name=' + hash + ']')
-                    ;
-                    if (target.length > 0) {
-                        var targetY = getElementYAbs(target.get(0));
-                        setTimeout(function () {
-                            if (Math.abs(targetY - scroller.scrollTop()) < options.menuInitialHashOffsetTolerance) {
-                                scroller.scrollTop(targetY + options.menuScrollOffset);
-                            }
-                        }, 100);
-                        return false;
-                    }
-                }
-                return true;
-            });
+        /**
+         * Scroll to given offset instantly
+         *
+         * @param windowScrollerTargetY window Y position to scroll to
+         * @param actualScrollerTargetY scroller Y position to scroll to or null
+         */
+        function doInstantScroll(windowScrollerTargetY, actualScrollerTargetY)
+        {
+            windowScroller.scrollTop(windowScrollerTargetY);
+            if (null !== actualScrollerTargetY) {
+                actualScroller.scrollTop(actualScrollerTargetY);
+            }
         }
 
-        // handle links
-        if (0 !== options.menuScrollOffset || options.menuScrollSpeed > 0) {
-            $('a[href^=#]', items).click(function () {
-                var
-                    hash = this.hash.substr(1),
-                    target = $('#' + hash + ', ' + '[name=' + hash + ']'),
-                    currentScrollTop = scroller.scrollTop(),
-                    targetY
-                ;
-
-                // change hash and return to original position
-                scrollWatch.pause();
-                window.location.hash = hash;
-                scroller.scrollTop(currentScrollTop);
-                scrollWatch.resume();
-
-                // get target and its position
-                if (target.length > 0) {
-                    target = target.get(0);
-                    targetY = getElementYAbs(target) + options.menuScrollOffset;
-                } else {
-                    return true;
+        /**
+         * Scroll to given offset with animation
+         *
+         * @param windowScrollerTargetY window Y position to scroll to
+         * @param actualScrollerTargetY scroller Y position to scroll to or null
+         */
+        function doAnimatedScroll(windowScrollerTargetY, actualScrollerTargetY)
+        {
+            if (windowScroller.is(':animated')) {
+                windowScroller.stop(true, true);
+            }
+            windowScroller.animate({scrollTop: windowScrollerTargetY + options.menuWindowScrollOffset}, options.menuScrollSpeed);
+            if (null !== actualScrollerTargetY) {
+                if (actualScroller.is(':animated')) {
+                    actualScroller.stop(true, true);
                 }
+                actualScroller.animate({scrollTop: actualScrollerTargetY + options.menuScrollerScrollOffset}, options.menuScrollerScrollSpeed || options.menuScrollSpeed);
+            }
+        }
 
-                // animate if speed is defined
-                if (options.menuScrollSpeed > 0) {
+        // resolve scrollers
+        actualScroller = $(options.scroller);
+        if (actualScroller.length < 1) {
+            throw new Error('Could not find the scroller element');
+        }
+        if (w === actualScroller.get(0)) {
+            actualScroller = null;
+        }
 
-                    // stop current animation
-                    if (scroller.is(':animated')) {
-                        scroller.stop(true, true);
+        // fetch items
+        items = $(this)[('*' === options.menuItemSelector) ? 'children' : 'find'](options.menuItemSelector);
+
+        // handle hashes
+        if (options.menuHandleHashLinks) {
+
+            // initial hash
+            if (0 !== options.menuScrollOffset && w.location.hash) {
+                $('a', items).each(function () {
+                    if (this.hash === w.location.hash) {
+                        var
+                            hash = this.hash.substr(1),
+                            target = $('#' + hash + ', ' + '[name=' + hash + ']')
+                        ;
+                        if (target.length > 0) {
+                            target = target.get(0);
+                            var
+                                windowScrollerTargetY = getElementYAbs(target),
+                                actualScrollerTargetY = (actualScroller ? getElementY(target, actualScroller.get(0)) : null)
+                            ;
+                            setTimeout(function () {
+                                if (Math.abs(windowScrollerTargetY - windowScroller.scrollTop()) < options.menuInitialHashOffsetTolerance) {
+                                    doInstantScroll(windowScrollerTargetY, actualScrollerTargetY);
+                                }
+                            }, 100);
+
+                            return false;
+                        }
                     }
 
-                    // animate
-                    $(scroller).animate({scrollTop: targetY}, options.menuScrollSpeed);
+                    return true;
+                });
+            }
 
-                } else {
+            // handle links
+            if (0 !== options.menuScrollOffset || options.menuScrollSpeed > 0) {
+                $('a', items).click(function () {
+                    if ('' === this.hash) {
+                        // link has no hash
+                        return true;
+                    }
+                    var
+                        hash = this.hash.substr(1),
+                        target = $('#' + hash + ', ' + '[name=' + hash + ']'),
+                        currentWindowScrollerTop = windowScroller.scrollTop(),
+                        currentActualScrollerTop = (actualScroller ? actualScroller.scrollTop() : null),
+                        windowScrollerTargetY,
+                        actualScrollerTargetY
+                    ;
 
-                    // instant
-                    scroller.scrollTop(targetY);
+                    // get target and its position
+                    if (target.length > 0) {
+                        target = target.get(0);
+                        windowScrollerTargetY = getElementYAbs(target);
+                        actualScrollerTargetY = (actualScroller ? getElementY(target, actualScroller.get(0)) : null);
+                    } else {
+                        // target not found
+                        return true;
+                    }
 
-                }
+                    // change hash and return to original positions
+                    scrollWatch.pause();
+                    w.location.hash = hash;
+                    windowScroller.scrollTop(currentWindowScrollerTop);
+                    if (actualScroller) {
+                        actualScroller.scrollTop(currentActualScrollerTop);
+                    }
+                    scrollWatch.resume();
 
-                return false;
+                    // scroll
+                    if (options.menuScrollSpeed > 0) {
+                        doAnimatedScroll(windowScrollerTargetY, actualScrollerTargetY);
+                    } else {
+                        doInstantScroll(windowScrollerTargetY, actualScrollerTargetY);
+                    }
 
-            });
+                    return false;
+
+                });
+            }
+
         }
 
         // apply scrollwatch
-        return scrollWatch = $(sections).scrollWatch(options);
+        scrollWatch = $(sections).scrollWatch(options);
+
+        // add menu methods
+        $.extend(scrollWatch, {
+            setMenuOption: function (name, value) {
+                options[name] = value;
+                return this;
+            },
+            instantScroll: function (windowScrollerTargetY, actualScrollerTargetY) {
+                doInstantScroll(windowScrollerTargetY, (null !== actualScroller) ? actualScrollerTargetY : null);
+            },
+            animatedScroll: function (windowScrollerTargetY, actualScrollerTargetY) {
+                doAnimatedScroll(windowScrollerTargetY, (null !== actualScroller) ? actualScrollerTargetY : null);
+            }
+        });
+
+        return scrollWatch;
     };
 
     // defaults
@@ -472,11 +556,15 @@ void function ($) {
         debugFocusLine: false
     };
     $.fn.scrollWatchMenu.defaults = {
+        scroller: window,
         menuActiveClass: 'active',
         menuItemSelector: '*',
-        menuScrollOffset: 0,
+        menuWindowScrollOffset: 0,
+        menuScrollerScrollOffset: 0,
         menuScrollSpeed: 500,
-        menuInitialHashOffsetTolerance: 40
+        menuScrollerScrollSpeed: null,
+        menuInitialHashOffsetTolerance: 40,
+        menuHandleHashLinks: true
     };
 
 }(jQuery);
