@@ -69,12 +69,6 @@ Example:
 
     });
 
-## Required CSS
-
-The following CSS rule is required for scroll calculations to work properly.
-
-    html, body {height: 100%;}
-
 ## Return value
 
 Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with following methods:
