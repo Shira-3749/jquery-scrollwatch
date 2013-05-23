@@ -255,17 +255,23 @@ These options are active only when `$().scrollWatchMenu()` is used.
       <td>null</td>
       <td>Scroller scroll animation speed, <code>menuScrollSpeed</code> is used when not specified.</td>
     </tr>
-    
-    <tr>
-      <th>menuInitialHashOffsetTolerance</th>
-      <td>40</td>
-      <td>Maximum scroll position difference to apply the <code>menuScrollOffset</code> after page load.</td>
-    </tr>
 
     <tr>
       <th>menuHandleHashLinks</th>
       <td>true</td>
       <td>Handle clicking on hash links in the menu.</td>
+    </tr>
+
+    <tr>
+      <th>menuHandleInitialHash</th>
+      <td>true</td>
+      <td>Handle scroll offset when loading the page.</td>
+    </tr>
+    
+    <tr>
+      <th>menuInitialHashOffsetTolerance</th>
+      <td>40</td>
+      <td>Maximum scroll position difference to apply the <code>menuScrollOffset</code> after page load.</td>
     </tr>
   </tbody>
 </table>

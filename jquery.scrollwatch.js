@@ -450,7 +450,7 @@ void function ($) {
         if (options.menuHandleHashLinks) {
 
             // initial hash
-            if (0 !== options.menuScrollOffset && w.location.hash) {
+            if (options.menuHandleInitialHash && 0 !== options.menuScrollOffset && w.location.hash) {
                 $('a', items).each(function () {
                     if (this.hash === w.location.hash) {
                         var
@@ -567,8 +567,9 @@ void function ($) {
         menuScrollerScrollOffset: 0,
         menuScrollSpeed: 500,
         menuScrollerScrollSpeed: null,
-        menuInitialHashOffsetTolerance: 40,
-        menuHandleHashLinks: true
+        menuHandleHashLinks: true,
+        menuHandleInitialHash: true,
+        menuInitialHashOffsetTolerance: 40
     };
 
 }(jQuery);
