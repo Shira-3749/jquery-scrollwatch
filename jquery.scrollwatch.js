@@ -380,7 +380,8 @@ void function ($) {
             activeItem = null,
             windowScroller = $(isWebkit ? document.body : 'html'),
             actualScroller,
-            scrollWatch
+            scrollWatch,
+            callback = options.callback
         ;
 
         // compose options
@@ -392,6 +393,9 @@ void function ($) {
                     }
                     $(items[focus.index]).addClass(options.menuActiveClass);
                     activeItem = focus.index;
+                }
+                if (callback) {
+                    callback(focus);
                 }
             }
         });
