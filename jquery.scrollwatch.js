@@ -408,7 +408,7 @@ void function ($) {
          */
         function doInstantScroll(windowScrollerTargetY, actualScrollerTargetY)
         {
-            windowScroller.scrollTop(windowScrollerTargetY);
+            windowScroller.scrollTop(windowScrollerTargetY + options.menuWindowScrollOffset);
             if (null !== actualScrollerTargetY) {
                 actualScroller.scrollTop(actualScrollerTargetY);
             }
