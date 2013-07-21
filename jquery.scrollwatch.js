@@ -118,7 +118,7 @@ void function ($) {
         {
             if (scrollerIsWindow) {
                 scrollerVisibleHeight = $(window).height();
-                scrollerFullHeight = window.scrollHeight;
+                scrollerFullHeight = document.body.scrollHeight;
             } else {
                 scrollerVisibleHeight = options.scroller.clientHeight;
                 scrollerFullHeight = options.scroller.scrollHeight;
