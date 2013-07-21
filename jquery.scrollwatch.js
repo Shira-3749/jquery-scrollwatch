@@ -380,7 +380,8 @@ void function ($) {
             activeItem = null,
             windowScroller = $(isWebkit ? document.body : 'html'),
             actualScroller,
-            scrollWatch
+            scrollWatch,
+            callback = options.callback
         ;
 
         // compose options
@@ -393,6 +394,9 @@ void function ($) {
                     $(items[focus.index]).addClass(options.menuActiveClass);
                     activeItem = focus.index;
                 }
+                if (callback) {
+                    callback(focus);
+                }
             }
         });
 
@@ -404,7 +408,7 @@ void function ($) {
          */
         function doInstantScroll(windowScrollerTargetY, actualScrollerTargetY)
         {
-            windowScroller.scrollTop(windowScrollerTargetY);
+            windowScroller.scrollTop(windowScrollerTargetY + options.menuWindowScrollOffset);
             if (null !== actualScrollerTargetY) {
                 actualScroller.scrollTop(actualScrollerTargetY);
             }
@@ -446,7 +450,7 @@ void function ($) {
         if (options.menuHandleHashLinks) {
 
             // initial hash
-            if (0 !== options.menuScrollOffset && w.location.hash) {
+            if (options.menuHandleInitialHash && 0 !== options.menuScrollOffset && w.location.hash) {
                 $('a', items).each(function () {
                     if (this.hash === w.location.hash) {
                         var
@@ -563,8 +567,9 @@ void function ($) {
         menuScrollerScrollOffset: 0,
         menuScrollSpeed: 500,
         menuScrollerScrollSpeed: null,
-        menuInitialHashOffsetTolerance: 40,
-        menuHandleHashLinks: true
+        menuHandleHashLinks: true,
+        menuHandleInitialHash: true,
+        menuInitialHashOffsetTolerance: 40
     };
 
 }(jQuery);
