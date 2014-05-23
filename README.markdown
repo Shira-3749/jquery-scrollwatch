@@ -1,8 +1,8 @@
-# jQuery ScrollWatch 1.3
+# jQuery ScrollWatch
 
 jQuery plugin to implement navigation or any other functionality based on current scrolling position of the page or inside a custom element.
 
-See [demo.html](demo.html) for an example.
+See `demo.html` for an example.
 
 ## Functionality
 
@@ -16,13 +16,7 @@ Tested in Mozilla Firefox, Google Chrome, Safari, Opera and MSIE 7+
 
 ## Known limitations
 
-- hash links between different instances are not fully supported (yet)
-
-
-
-----------
-
-
+- hash links between different instances are not fully supported
 
 ## Usage
 
@@ -98,14 +92,14 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
       <th>Description</th>
     </tr>
   </thead>
-  
+
   <tbody>
     <tr>
       <th>scroller</th>
       <td>window</td>
       <td>Element to watch for scrolling events (must have <code>position: relative or absolute</code> if not window)</td>
     </tr>
-    
+
     <tr>
       <th>resolutionMode</th>
       <td>0</td>
@@ -120,11 +114,11 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
         </ul>
       </td>
     </tr>
-    
+
     <tr>
       <th>callback</th>
       <td>required</td>
-      
+
       <td>
         Callback invoked when the focus is updated. It is passed three arguments: <ol>
           <li>
@@ -149,7 +143,7 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
               </li>
             </ul>
           </li>
-          
+
           <li>
             top coordinate of the view
           </li>
@@ -159,7 +153,7 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
         </ol>
       </td>
     </tr>
-    
+
     <tr>
       <th>focusRatio</th>
       <td>0.3819..</td>
@@ -179,25 +173,25 @@ Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with follo
       <td>false</td>
       <td>Display position of the focus line (for debugging purposes).</td>
     </tr>
-    
+
     <tr>
       <th>topDownWeight</th>
       <td>0</td>
       <td>Extra focus height added to the section if it preceedes the other (used in **resolutionMode** 0 only).</td>
     </tr>
-    
+
     <tr>
       <th>viewMarginTop</th>
       <td>0</td>
       <td>Height of an area at the top of the view to be excluded (e.g. a fixed navigation menu).</td>
     </tr>
-    
+
     <tr>
       <th>viewMarginBottom</th>
       <td>0</td>
       <td>Height of an area at the bottom of the view to be excluded (e.g. a fixed navigation menu).</td>
     </tr>
-    
+
     <tr>
       <th>multiMode</th>
       <td>false</td>
@@ -218,20 +212,20 @@ These options are active only when `$().scrollWatchMenu()` is used.
       <th>Description</th>
     </tr>
   </thead>
-  
+
   <tbody>
     <tr>
       <th>menuActiveClass</th>
       <td>active</td>
       <td>Class of the active menu item.</td>
     </tr>
-    
+
     <tr>
       <th>menuItemSelector</th>
       <td>*</td>
       <td>Selector to match menu items, <code>*</code> matches all direct children of the menu element.</td>
     </tr>
-    
+
     <tr>
       <th>menuWindowScrollOffset</th>
       <td>0</td>
@@ -243,7 +237,7 @@ These options are active only when `$().scrollWatchMenu()` is used.
       <td>0</td>
       <td>Scroll offset applied to the scroller (not window) when a menu link containing a hash is clicked.</td>
     </tr>
- 
+
     <tr>
       <th>menuScrollSpeed</th>
       <td>500</td>
@@ -267,7 +261,7 @@ These options are active only when `$().scrollWatchMenu()` is used.
       <td>true</td>
       <td>Handle scroll offset when loading the page.</td>
     </tr>
-    
+
     <tr>
       <th>menuInitialHashOffsetTolerance</th>
       <td>40</td>

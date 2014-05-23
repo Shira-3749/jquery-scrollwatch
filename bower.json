@@ -1,0 +1,21 @@
+{
+    "name": "jquery-scrollwatch",
+    "description": "jQuery plugin to implement navigation or any other functionality based on current scrolling position of the page or inside a custom element.",
+    "version": "1.0.0",
+    "keywords": [
+        "js",
+        "jquery",
+        "scroll",
+        "watch"
+    ],
+    "main": [
+        "src/jquery.scrollwatch.js"
+    ],
+    "ignore": [
+        ".*",
+        "src/demo.html"
+    ],
+    "dependencies": {
+        "jquery": ">= 1.9.0"
+    }
+}
