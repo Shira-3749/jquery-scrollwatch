@@ -1,271 +1,189 @@
-# jQuery ScrollWatch
+# ScrollWatch
 
-jQuery plugin to implement navigation or any other functionality based on current scrolling position of the page or inside a custom element.
+jQuery plugin to determine active sections on the page based on current viewport and scrolling position.
+
+## Demo
 
 See `demo.html` for an example.
 
-## Functionality
 
-- determining which section on the page (or inside custom element with scrolling) is active
-- choosing single section if there are more candidates - based on visible height or "focus line"
-- managing navigation consisting of hash links (links that point to specific part of the content by using a `#` in their href attribute)
+## Features
+
+- determining which section on the page (or inside a custom scrollable element) is currently active
+- many options, including multiple modes of resolution (visible height, focus line, custom)
+- mapping the active section to an "active class" on some list of elements (e.g. menu items)
+
 
 ## Browser support
 
-Tested in Mozilla Firefox, Google Chrome, Safari, Opera and MSIE 7+
+Tested in Mozilla Firefox, Google Chrome, Safari, Opera and MSIE 7+.
 
-## Known limitations
-
-- hash links between different instances are not fully supported
 
 ## Usage
 
-The plugin provides two jQuery methods you can use.
+The plugin provides two jQuery methods you can use:
 
-### `$(sections).scrollWatch(options);`
+### $(sections).scrollWatch(callback[, options])
 
-This is the "main" method. It attaches scrollwatch to the given scroller (`window` by default) and matches sections according to current scrolling position.
+Attaches a watcher to the given sections. The callback is then invoked when the focus
+changes, according to options.
 
-- **sections** - selector of or array of elements that represent all the possible sections
-- **options** - object with various settings
+- **sections** - selector or an array of elements that represent all the possible sections
+- **callback** - function to invoke when the focus changes
+- **options** - object with various settings (see list far below)
 
-With this method it is up to you to implement what is going to happen.
+**Returns:** an instance of `Shira.ScrollWatch.Watcher` or `false` if no sections were given / matched.
 
-Example:
+#### Callback arguments
 
-    $(window).load(function () {
+- **0** - the current focus, an object with the following keys (if **multiMode** is enabled, it will be an array of those objects):
+    - **index** - section number (0 based)
+    - **focusHeight** - null or height of the section's visible area
+    - **focusIntersection** - null or an array with top coordinate as element 0 and bottom coordinate as element 1<
+    - **section** - DOM element of the section
+    - **isFull** - indicates that the section is entirely in the view area
+    - **asClosest** - indicates that the section was chosen as closest (because no section was directly in the view)
+- **1** - the view, an object with the following keys:
+    - **top** - top coordinate of the view
+    - **bottom** - bottom coordinate of the view
+- **2** - an instance of `Shira.ScrollWatch.Watcher`
 
-        var scrollWatch = $('div.section').scrollWatch({
-            callback: function (focus) {
-                // do something based on current focus
-                // the focus parameter is explained below in the option table (callback)
-            }
-            // more options here
+#### Example:
+
+    $(document).ready(function () {
+        $('div.section').scrollWatch(function (focus) {
+            console.log(focus);
         });
-
     });
 
-### `$(menu).scrollWatchMenu(sections, options);`
 
-This method makes it easy to show active section in a navigation menu.
+### $(sections).scrollWatchMapTo(items[, activeClass, options])
 
-- **menu** - selector or element that contains the menu items
-- **sections** - selector of or array of elements that represent all the possible sections
-- **options** - object with various settings
+Attaches a watcher to the given sections and maps the current focus as an "active class"
+to the respective item.
 
-Example:
+- **sections** - selector or an array of elements that represent all the possible sections
+- **items** - selector or an array of elements to map the "active class" to
+- **activeClass** - class name to add to the active item (defaults to "active")
+- **options** - object with various settings (see list far below)
 
-    $(window).load(function () {
+**Returns:** an instance of `Shira.ScrollWatch.Watcher` or `false` if no sections were given / matched.
 
-        var scrollWatch = $('ul#menu').scrollWatchMenu('div.section', {
-            // options here
-        });
 
+#### Example:
+
+    $(document).ready(function () {
+        $('div.section').scrollWatchMapTo('#menu > li');
     });
 
-## Return value
 
-Both `$().scrollWatch()` and `$().scrollWatchMenu()` return an object with following methods:
+### Options
 
-- **update()** - recalculate section boundaries and update current focus
-  -  should be called when size of the contents in the scroller element (usually entire page) change dynamically (ajax-loaded content, open/close features etc.)
-- **updateFocus()** - update current focus only
-- **unbind()** - unbind and disable the ScrollWatch instance
-- **pause()** - suspend focus update
-- **resume()** - resume focus update
-- **setOption(name, value)** - change given option at runtime
-  - it is your responsibility to call `update()` or `updateFocus()` if necessary
-
-`$().scrollWatchMenu()` specific methods:
-
-- **setMenuOption()** - change given menu option at runtime
-- **instantScroll(pageY, [scrollerY])** - instantly scroll at given coordinate in page and optionally also the scroller
-- **animatedScroll(pageY, [scrollerY])** - smoothly scroll at given coordinate in page and optionally also the scroller
-
-## Options
+List of all available options.
 
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Default</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <th>scroller</th>
-      <td>window</td>
-      <td>Element to watch for scrolling events (must have <code>position: relative or absolute</code> if not window)</td>
-    </tr>
-
-    <tr>
-      <th>resolutionMode</th>
-      <td>0</td>
-      <td>
-        Determines how the active section is chosen <ul>
-          <li>
-            <strong>0</strong> - section that is occupying the largest portion of the view is chosen
-          </li>
-          <li>
-            <strong>1</strong> - section that is directly in intersection or nearest to the focus line is chosen
-          </li>
-        </ul>
-      </td>
-    </tr>
-
-    <tr>
-      <th>callback</th>
-      <td>required</td>
-
-      <td>
-        Callback invoked when the focus is updated. It is passed three arguments: <ol>
-          <li>
-            object with following properties (or array of those objects if multiMode = true): <ul>
-              <li>
-                <strong>index</strong> - section number (0 based)
-              </li>
-              <li>
-                <strong>focusHeight</strong> - null or height of the section's visible area
-              </li>
-              <li>
-                <strong>focusIntersection</strong> - null or an array with top coordinate as element 0 and bottom coordinate as element 1
-              </li>
-              <li>
-                <strong>elem</strong> - DOM element of the section
-              </li>
-              <li>
-                <strong>isFull</strong> - indicates that the section is entirely in the view area
-              </li>
-              <li>
-                <strong>asClosest</strong> - indicates that the section was chosen as closest (because no section was directly in the view)
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            top coordinate of the view
-          </li>
-          <li>
-            bottom coordinate of the view
-          </li>
-        </ol>
-      </td>
-    </tr>
-
-    <tr>
-      <th>focusRatio</th>
-      <td>0.3819..</td>
-      <td>Percentage of the view height that determines position of the focus line.</td>
-    </tr>
-
-    <tr>
-      <th>focusOffset</th>
-      <td>0</td>
-      <td>
-        Offset added to the focus line position after <strong>focusRatio</strong> is applied. (Set <strong>focusRatio</strong> to zero if you wish to use the  <strong>focusOffset</strong> only).
-      </td>
-    </tr>
-
-    <tr>
-      <th>debugFocusLine</th>
-      <td>false</td>
-      <td>Display position of the focus line (for debugging purposes).</td>
-    </tr>
-
-    <tr>
-      <th>topDownWeight</th>
-      <td>0</td>
-      <td>Extra focus height added to the section if it preceedes the other (used in **resolutionMode** 0 only).</td>
-    </tr>
-
-    <tr>
-      <th>viewMarginTop</th>
-      <td>0</td>
-      <td>Height of an area at the top of the view to be excluded (e.g. a fixed navigation menu).</td>
-    </tr>
-
-    <tr>
-      <th>viewMarginBottom</th>
-      <td>0</td>
-      <td>Height of an area at the bottom of the view to be excluded (e.g. a fixed navigation menu).</td>
-    </tr>
-
-    <tr>
-      <th>multiMode</th>
-      <td>false</td>
-      <td>Enabling this turns the <code>focus</code> argument of <strong>callback</strong> into an array and no resolution is performed.</td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>scroller</th>
+            <td>null</td>
+            <td>DOM element to watch for scrolling events (window or element with <code>position: relative or absolute</code>). If no element is given, <code>window</code> or first section's offset parent will be used instead.</td>
+        </tr>
+        <tr>
+            <th>resolutionMode</th>
+            <td>"height"</td>
+            <td>Determines how the active section is chosen: 
+                <ul>
+                    <li><strong>height</strong> - section that is occupying the largest portion of the view is chosen</li>
+                    <li><strong>focus-line</strong> - section that is directly intersecting or is closest to the focus line is chosen</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>viewMarginTop</th>
+            <td>0</td>
+            <td>Height of an area at the top of the view to be excluded.</td>
+        </tr>
+        <tr>
+            <th>viewMarginBottom</th>
+            <td>0</td>
+            <td>Height of an area at the bottom of the view to be excluded.</td>
+        </tr>
+        <tr>
+            <th>stickyOffsetTop</th>
+            <td>5</td>
+            <td>Height of an area at the top of the scroller that, if intersected by the top of the view, forces the first section to be active regardless of other conditions.</td>
+        </tr>
+        <tr>
+            <th>stickyOffsetBottom</th>
+            <td>5</td>
+            <td>Height of an area at the bottom of the scroller that, if intersected by the bottom of the view, forces the last section to be active regardless of other conditions.</td>
+        </tr>
+        <tr>
+            <th>throttle</th>
+            <td>true</td>
+            <td>When enabled, the callback is invoked only when the active section changes. When disabled, the callback is invoked on every pulse (e.g. on scroll, resize).</td>
+        </tr>
+        <tr>
+            <th>multiMode</th>
+            <td>false</td>
+            <td>When enabled, the <code>focus</code> argument of the callback will be an array of focus candidates (no resolution will be performed). This is not compatible with the <code>.scrollWatchMapTo()</code> method.</td>
+        </tr>
+    </tbody>
 </table>
 
-### Menu options
 
-These options are active only when `$().scrollWatchMenu()` is used.
+### Options specific to resolutionMode = "height"
 
 <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Default</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>topDownWeight</th>
+            <td>0</td>
+            <td>Extra focus height added to the section if it precedes the other. This can be used to prefer earlier sections to later ones.</td>
+        </tr>
+    </tbody>
+</table>
 
-  <tbody>
-    <tr>
-      <th>menuActiveClass</th>
-      <td>active</td>
-      <td>Class of the active menu item.</td>
-    </tr>
 
-    <tr>
-      <th>menuItemSelector</th>
-      <td>*</td>
-      <td>Selector to match menu items, <code>*</code> matches all direct children of the menu element.</td>
-    </tr>
+### Options specific to resolutionMode = "focus-line"
 
-    <tr>
-      <th>menuWindowScrollOffset</th>
-      <td>0</td>
-      <td>Scroll offset applied to the page when a menu link containing a hash is clicked.</td>
-    </tr>
-
-    <tr>
-      <th>menuScrollerScrollOffset</th>
-      <td>0</td>
-      <td>Scroll offset applied to the scroller (not window) when a menu link containing a hash is clicked.</td>
-    </tr>
-
-    <tr>
-      <th>menuScrollSpeed</th>
-      <td>500</td>
-      <td>Scroll animation speed, <code>0</code> to disable.</td>
-    </tr>
-
-    <tr>
-      <th>menuScrollerScrollSpeed</th>
-      <td>null</td>
-      <td>Scroller scroll animation speed, <code>menuScrollSpeed</code> is used when not specified.</td>
-    </tr>
-
-    <tr>
-      <th>menuHandleHashLinks</th>
-      <td>true</td>
-      <td>Handle clicking on hash links in the menu.</td>
-    </tr>
-
-    <tr>
-      <th>menuHandleInitialHash</th>
-      <td>true</td>
-      <td>Handle scroll offset when loading the page.</td>
-    </tr>
-
-    <tr>
-      <th>menuInitialHashOffsetTolerance</th>
-      <td>40</td>
-      <td>Maximum scroll position difference to apply the <code>menuScrollOffset</code> after page load.</td>
-    </tr>
-  </tbody>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>focusRatio</th>
+            <td>0.3819..</td>
+            <td>Percentage of the view height that determines position of the focus line.</td>
+        </tr>
+        <tr>
+            <th>focusOffset</th>
+            <td>0</td>
+            <td>Offset added to position of the focus line position after <strong>focusRatio</strong> is applied. (Set <strong>focusRatio</strong> to 0 if you wish to use the <strong>focusOffset</strong> as an absolute value).</td>
+        </tr>
+        <tr>
+            <th>debugFocusLine</th>
+            <td>false</td>
+            <td>When enabled, position of the focus line will be displayed when scrolling (for debugging purposes).</td>
+        </tr>
+    </tbody>
 </table>
