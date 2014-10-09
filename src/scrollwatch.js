@@ -58,7 +58,7 @@ var Shira;
             stickyOffsetBottom: 5,
             focusRatio: 0.38196601125010515,
             focusOffset: 0,
-            debugFocusLine: true
+            debugFocusLine: false
         };
 
         ScrollWatch.Watcher.prototype = {
