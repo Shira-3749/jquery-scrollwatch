@@ -1,6 +1,7 @@
 # ScrollWatch
 
-jQuery plugin used to determine active sections on the page based on current viewport and scrolling position.
+jQuery plugin for determining active sections on the page based on viewport scrolling.
+
 
 ## Demo
 

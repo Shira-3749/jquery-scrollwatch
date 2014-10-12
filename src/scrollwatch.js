@@ -87,7 +87,6 @@ var Shira;
                 do y += elem.offsetTop;
                 while ((elem = elem.offsetParent) && elem !== offsetParent);
 
-                // return
                 return y;
             },
 
