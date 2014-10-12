@@ -9,18 +9,18 @@
     h2 {margin-top: 0; font-size: 1.5em;}
     a {color: #238923; text-decoration: underline;}
     a:hover {color: #000;}
+    p {margin: 1em 0; padding: 0.5em;}
     p, li {line-height: 1.5;}
-    ul.menu {position: fixed; left: 0; top: 0; margin: 0; padding: 0; width: 100%; border-bottom: 1px solid #808080; background-color: #ccc; font-weight: bold;}
+    ul.menu {position: fixed; left: 0; top: 0; margin: 0; padding: 0; width: 100%; background-color: #000; font-weight: bold;}
     ul.menu > li {float: left; list-style-type: none; line-height: initial;}
-    ul.menu > li.active {background-color: #999;}
-    ul.menu > li.active > a {color: #fff;}
-    ul.menu > li > a {display: block; padding: 1em; color: #000; text-decoration: none;}
+    ul.menu > li.active {background-color: #238923;}
+    ul.menu > li > a {display: block; padding: 1em; color: #fff; text-decoration: none;}
     body > ul.menu {z-index: 10;}
-    div.section {margin: 3em 0; padding: 2em; border-width: 1px 0; border-style: dashed; border-color: #808080; background-color: #eee;}
-    table th, table td {border: 1px solid #808080; padding: 0.2em 0.5em;}
-    table th {text-align: left;}
-    #wrapper {min-width: 750px; max-width: 1024px;}
-    #scrollable {width: 700px; border: 1px solid #808080;}
+    div.section {margin: 3em 0; padding: 2em; background-color: #eee;}
+    #wrapper {min-width: 600px; max-width: 1024px; margin: 0 auto;}
+    #header {margin-bottom: 1em; padding: 5em; background-color: #dcdcdc; text-align: center;}
+    #header p {background-color: #eee;}
+    #scrollable {border: 1px solid #808080;}
     #scrollable > ul.menu {position: static; height: 52px; width: auto;}
     #scrollable > div {height: 300px; position: relative; overflow-y: scroll; background-color: #eee;}
     #scrollable > div > div {border-bottom: 1px solid #808080; line-height: 300px; font-size: 70px; text-align: center;}
@@ -31,25 +31,16 @@
 
     <div id="wrapper">
 
-        <h1>ScrollWatch demo</h1>
+        <div id="header">
+            <h1>ScrollWatch demo</h1>
 
-        <p>Try scrolling and watch the horizontal menu react.</p>
-
-        <ul>
-            <li>
-                the top menu uses <code>resolutionMode: 'focus-line'</code>
-                <ul>
-                    <li>section nearest to or intersecting the focus line is chosen</li>
-                    <li><label><input type="checkbox" id="toggleDebugFocusLine"> show debug focus line (scroll to see it)</label></li>
-                </ul>
-            </li>
-            <li>
-                the <a href="#scrollable">scrollable element menu</a> uses <code>resolutionMode: 'height'</code>
-                <ul>
-                    <li>section that occupies most of the view is chosen</li>
-                </ul>
-            </li>
-        </ul>
+            <p>Try scrolling and watch the horizontal menu react.</p>
+            <p>
+                <strong>The fixed top menu</strong> uses "focus-line" resolution mode (section nearest to or intersecting the focus line is chosen).<br>
+                <label><input type="checkbox" id="toggleDebugFocusLine"> show debug focus line (scroll to see it)</label>
+            </p>
+            <p><strong>The <a href="#scrollable">scrollable element menu</a></strong> uses "height" resolution mode (section that occupies most of the view is chosen).</p>
+        </div>
 
         <ul class="menu">
             <li><a href="#lorem">Lorem</a></li>
