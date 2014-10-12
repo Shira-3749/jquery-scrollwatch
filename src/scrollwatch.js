@@ -523,7 +523,7 @@ var Shira;
          * @returns {ScrollWatch.Watcher|Boolean} false if no sections were matched
          */
         $.fn.scrollWatch = function (callback, options) {
-            if (this.length > 1) {
+            if (this.length >= 1) {
                 var watcher = new ScrollWatch.Watcher(this, callback, options);
                 watcher.attach();
 
@@ -542,7 +542,7 @@ var Shira;
          * @param {Object}              options     watcher option map
          */
         $.fn.scrollWatchMapTo = function(items, activeClass, options) {
-            if (this.length > 1) {
+            if (this.length >= 1) {
                 if ('string' === typeof items) {
                     items = $(items);
                 }

@@ -209,7 +209,7 @@ List of all available options.
             <td>required</td>
             <td>Function to invoke when a resolution is needed. It must choose and return <strong>a single focus object</strong>. The following arguments are passed to it:
                 <ul>
-                    <li><strong>0</strong> - array of focus objects (please refer to argument #0 in the "Callbacks arguments" section)</li>
+                    <li><strong>0</strong> - array of focus objects (please refer to argument #0 in the "Callback arguments" section)</li>
                     <li><strong>1</strong> - the current view (an object with the following keys: <code>top, bottom</code>)</li>
 					<li><strong>2</strong> - an instance of <code>Shira.ScrollWatch.Watcher</code></li>
                 </ul>
