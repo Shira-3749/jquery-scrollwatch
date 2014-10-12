@@ -49,8 +49,8 @@ var Shira;
         ScrollWatch.Watcher.defaults = {
             scroller: null,
             throttle: true,
-            multiMode: false,
             resolutionMode: 'height',
+            resolver: null,
             topDownWeight: 0,
             viewMarginTop: 0,
             viewMarginBottom: 0,
@@ -67,10 +67,10 @@ var Shira;
             callback: null,
             options: null,
             paused: false,
-            bound: false,
+            attached: false,
 
             /**
-             * Get Y position of the given element, relative to given offset parent
+             * Get Y position of the given element (relative to offsetParent)
              *
              * @param {HTMLElement} elem
              * @param {HTMLElement} offsetParent
@@ -92,20 +92,6 @@ var Shira;
             },
 
             /**
-             * Get absolute Y position of the given element
-             *
-             * @param {HTMLElement} elem
-             * @returns {Number}
-             */
-            getElementYAbs: function (elem) {
-                var y = 0;
-                do y += elem.offsetTop;
-                while((elem = elem.offsetParent));
-
-                return y;
-            },
-
-            /**
              * Get intersection of two inervals
              * Requirements: aLeft < aRight, bLeft < bRight
              *
@@ -113,7 +99,7 @@ var Shira;
              * @param {Number} aRight
              * @param {Number} bLeft
              * @param {Number} bRight
-             * @returns {Array|null}[left, right] or null
+             * @returns {Array|null} [left, right] or null
              */
             getIntersection: function (aLeft, aRight, bLeft, bRight) {
                 if (bLeft > aRight || bRight < aLeft) {
@@ -143,7 +129,7 @@ var Shira;
 
             /**
              * Sort calculated section boundaries
-             *              *
+             *
              * @param {Array} a
              * @param {Array} b
              * @returns {Number}
@@ -194,43 +180,44 @@ var Shira;
              * @returns {Array}
              */
             determineFocusCandidates: function (view) {
-                var focusCandidates = [], focusIntersection, focusHeight;
+                var focusCandidates = [], forcedIndex = null;
 
+                // see if a certain section must be forced
                 if (this.scrollerFullHeight - view.bottom < this.options.stickyOffsetBottom) {
                     // always choose last section if the view is near the end
-                    var lastSection = this.sectionBoundaries.length - 1;
-                    focusIntersection = this.getIntersection(view.top, view.bottom, this.sectionBoundaries[lastSection][0], this.sectionBoundaries[lastSection][1]);
-                    focusCandidates.push({
-                        index: lastSection,
-                        focusIntersection: focusIntersection,
-                        focusHeight: (null === focusIntersection) ? null : (focusIntersection[1] - focusIntersection[0]),
-                        section: this.sections[lastSection],
-                        isFull: focusHeight >= this.sectionBoundaries[lastSection][2],
-                        asClosest: false
-                    });
+                    forcedIndex = this.sectionBoundaries.length - 1;
                 } else if (view.top - this.options.viewMarginTop < this.options.stickyOffsetTop) {
                     // always choose first section if the view is near the beginning
-                    focusIntersection = this.getIntersection(view.top, view.bottom, this.sectionBoundaries[0][0], this.sectionBoundaries[0][1]);
+                    forcedIndex = 0;
+                }
+
+                // determine candidates
+                if (null !== forcedIndex) {
+                    // forced
                     focusCandidates.push({
-                        index: 0,
-                        focusIntersection: focusIntersection,
-                        focusHeight: (null === focusIntersection) ? null : (focusIntersection[1] - focusIntersection[0]),
-                        section: this.sections[0],
-                        isFull: focusHeight >= this.sectionBoundaries[0][2],
-                        asClosest: false
+                        index: forcedIndex,
+                        intersection: this.getIntersection(
+                            view.top,
+                            view.bottom,
+                            this.sectionBoundaries[forcedIndex][0],
+                            this.sectionBoundaries[forcedIndex][1]
+                        ),
+                        section: this.sections[forcedIndex]
                     });
                 } else {
-                    // determine using intersections
+                    // find intersecting sections
                     for (var i = 0; i < this.sectionBoundaries.length; ++i) {
-                        focusIntersection = this.getIntersection(view.top, view.bottom, this.sectionBoundaries[i][0], this.sectionBoundaries[i][1]);
-                        if (null !== focusIntersection) {
+                        var intersection = this.getIntersection(
+                            view.top,
+                            view.bottom,
+                            this.sectionBoundaries[i][0],
+                            this.sectionBoundaries[i][1]
+                        );
+                        if (null !== intersection) {
                             focusCandidates.push({
                                 index: i,
-                                focusIntersection: focusIntersection,
-                                focusHeight: focusIntersection[1] - focusIntersection[0],
-                                section: this.sections[i],
-                                isFull: focusHeight >= this.sectionBoundaries[i][2],
-                                asClosest: false
+                                intersection: intersection,
+                                section: this.sections[i]
                             });
                         }
                     }
@@ -241,17 +228,14 @@ var Shira;
                         for (i = 0; i < this.sectionBoundaries.length; ++i) {
                             sectionOffsetTop = Math.abs(this.sectionBoundaries[i][0] - view.top);
                             if (null === sectionClosest || sectionClosest[1] > sectionOffsetTop) {
-                                sectionClosest = [i, sectionOffsetTop];
+                                sectionClosest = i;
                             }
                         }
 
                         focusCandidates.push({
-                            index: sectionClosest[0],
-                            focusIntersection: null,
-                            focusHeight: null,
-                            section: this.sections[sectionClosest[0]],
-                            isFull: false,
-                            asClosest: true
+                            index: sectionClosest,
+                            intersection: null,
+                            section: this.sections[sectionClosest]
                         });
                     }
                 }
@@ -266,7 +250,7 @@ var Shira;
              * @param {Object} view
              * @returns {Object}
              */
-            chooseFocus: function (focusCandidates, view) {
+            resolveFocusCandidates: function (focusCandidates, view) {
                 var that = this;
                 var chosenCandidate = null;
 
@@ -281,9 +265,9 @@ var Shira;
                         case 'height':
                             focusCandidates.sort(function (a, b) {
                                 if (a.index < b.index) {
-                                    return b.focusHeight - a.focusHeight - that.options.topDownWeight;
+                                    return (b.intersection[1] - b.intersection[0]) - (a.intersection[1] - a.intersection[0]) - that.options.topDownWeight;
                                 }
-                                return b.focusHeight - a.focusHeight;
+                                return (b.intersection[1] - b.intersection[0]) - (a.intersection[1] - a.intersection[0]);
                             });
                             chosenCandidate = focusCandidates[0];
                             break;
@@ -298,7 +282,7 @@ var Shira;
 
                             // find direct intersection with the focus line
                             for (var i = 0; i < focusCandidates.length; ++i) {
-                                if (focusCandidates[i].focusIntersection[0] <= viewFocusLineOffset && focusCandidates[i].focusIntersection[1] >= viewFocusLineOffset) {
+                                if (focusCandidates[i].intersection[0] <= viewFocusLineOffset && focusCandidates[i].intersection[1] >= viewFocusLineOffset) {
                                     chosenCandidate = focusCandidates[i];
                                     break;
                                 }
@@ -308,12 +292,23 @@ var Shira;
                             if (null === chosenCandidate) {
                                 for (var i = 0; i < focusCandidates.length; ++i) {
                                     focusCandidates[i].focusRatioOffsetDistance = Math.min(
-                                        Math.abs(focusCandidates[i].focusIntersection[0] - viewFocusLineOffset),
-                                        Math.abs(focusCandidates[i].focusIntersection[1] - viewFocusLineOffset)
+                                        Math.abs(focusCandidates[i].intersection[0] - viewFocusLineOffset),
+                                        Math.abs(focusCandidates[i].intersection[1] - viewFocusLineOffset)
                                     );
                                 }
                                 focusCandidates.sort(this.sortFocusCandidatesByDistanceToFocusRatioOffset);
                                 chosenCandidate = focusCandidates[0];
+                            }
+                            break;
+
+                        // use custom resolver
+                        case 'custom':
+                            if (null === this.options.resolver) {
+                                throw new Error('No resolver has been set');
+                            }
+                            chosenCandidate = this.options.resolver(focusCandidates, view, this);
+                            if (chosenCandidate instanceof Array) {
+                                throw new Error('The resolver must return a single focus object');
                             }
                             break;
 
@@ -335,7 +330,7 @@ var Shira;
                 var that = this;
 
                 if (null === this.debugFocusLine) {
-                    this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-top:1px solid red;border-bottom:1px solid yellow;z-index:10000;box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);"></div>')
+                    this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-bottom:1px solid red;z-index:10000;box-shadow: 0 0 5px black;"></div>')
                         .appendTo(window === this.scroller ? document.body : this.scroller)
                     ;
                 }
@@ -367,8 +362,8 @@ var Shira;
              * Attach the watcher
              */
             attach: function () {
-                if (this.bound) {
-                    throw new Error('Already bound');
+                if (this.attached) {
+                    throw new Error('Already attached');
                 }
 
                 var that = this;
@@ -383,6 +378,7 @@ var Shira;
                     $(this.scroller).resize(this.updateEventHandler);
                 }
 
+                this.attached = true;
                 this.pulse();
             },
 
@@ -390,8 +386,8 @@ var Shira;
              * Detach the watcher
              */
             detach: function () {
-                if (!this.bound) {
-                    throw new Error('Not bound');
+                if (!this.attached) {
+                    throw new Error('Not attached');
                 }
 
                 $(this.scroller).unbind('scroll', this.updateEventHandler);
@@ -399,13 +395,15 @@ var Shira;
                 if (window === this.scroller) {
                     $(this.scroller).unbind('resize');
                 }
+
+                this.attached = false;
             },
 
             /**
              * Pulse the watcher
              */
             pulse: function () {
-                if (this.paused) {
+                if (this.paused || !this.attached) {
                     return;
                 }
 
@@ -418,12 +416,8 @@ var Shira;
                 var focusCandidates = this.determineFocusCandidates(view);
 
                 // resolve candidates and invoke the callback
-                if (this.options.multiMode) {
-                    // multi mode, pass all candidates
-                    this.callback(focusCandidates, view, this);
-                } else {
-                    // choose single focus
-                    var focus = this.chooseFocus(focusCandidates, view);
+                if ('none' !== this.options.resolutionMode) {
+                    var focus = this.resolveFocusCandidates(focusCandidates, view);
 
                     if (
                         !this.options.throttle
@@ -433,6 +427,9 @@ var Shira;
                         this.callback(focus, view, this);
                         this.lastFocus = focus;
                     }
+                } else {
+                    // no resolution
+                    this.callback(focusCandidates, view, this);
                 }
             }
         };
@@ -449,26 +446,27 @@ var Shira;
 
             this.items = items;
             this.activeClass = activeClass;
-            this.currentActiveItem = null;
+            this.currentActiveIndexes = [];
         };
 
         ScrollWatch.ActiveClassMapper.prototype = {
             /**
              * Handle focus change
              *
-             * @param {Number} newIndex
+             * @param {Array} newActiveIndexes
              */
-            handleFocusChange: function (newIndex) {
-                // remove class from the current active item
-                if (null !== this.currentActiveItem) {
-                    $(this.items[this.currentActiveItem]).removeClass(this.activeClass);
+            handleFocusChange: function (newActiveIndexes) {
+                var toDeactivate = $(this.currentActiveIndexes).not(newActiveIndexes).get();
+                for (var i = 0; i < toDeactivate.length; ++i) {
+                    $(this.items[toDeactivate[i]]).removeClass(this.activeClass);
                 }
 
-                // add class to the new active item
-                if (newIndex < this.items.length) {
-                    $(this.items[newIndex]).addClass(this.activeClass);
+                var toActivate = $(newActiveIndexes).not(this.currentActiveIndexes).get();
+                for (var i = 0; i < toActivate.length; ++i) {
+                    $(this.items[toActivate[i]]).addClass(this.activeClass);
                 }
-                this.currentActiveItem = newIndex;
+
+                this.currentActiveIndexes = newActiveIndexes;
             },
 
             /**
@@ -480,7 +478,17 @@ var Shira;
                 var that = this;
 
                 return function (focus) {
-                    that.handleFocusChange(focus.index);
+                    var newActiveIndexes = [];
+
+                    if (focus instanceof Array) {
+                        for (var i = 0; i < focus.length; ++i) {
+                            newActiveIndexes.push(focus[i].index);
+                        }
+                    } else {
+                        newActiveIndexes.push(focus.index);
+                    }
+
+                    that.handleFocusChange(newActiveIndexes);
                 };
             }
         };
@@ -506,7 +514,7 @@ var Shira;
         };
 
         /**
-         * Apply watcher to the matched elements as sections and map
+         * Attach a watcher to the matched elements as sections and map
          * the active focus as an "active class" to the respective item.
          *
          * @param {Array|jQuery|String} items       array of DOM elements, jQuery object or a selector
@@ -525,7 +533,7 @@ var Shira;
                     options
                 );
                 watcher.attach();
-
+                
                 return watcher;
             } else {
                 return false;

@@ -10,7 +10,7 @@ See `demo.html` for an example.
 ## Features
 
 - determining which section on the page (or inside a custom scrollable element) is currently active
-- many options, including multiple modes of resolution (visible height, focus line, custom)
+- many options, including multiple modes of resolution (visible height, focus line, custom, none)
 - mapping the active section to an "active class" on some list of elements (e.g. menu items)
 
 
@@ -23,6 +23,7 @@ Tested in Mozilla Firefox, Google Chrome, Safari, Opera and MSIE 7+.
 
 The plugin provides two jQuery methods you can use:
 
+
 ### $(sections).scrollWatch(callback[, options])
 
 Attaches a watcher to the given sections. The callback is then invoked when the focus
@@ -34,19 +35,18 @@ changes, according to options.
 
 **Returns:** an instance of `Shira.ScrollWatch.Watcher` or `false` if no sections were given / matched.
 
+
 #### Callback arguments
 
-- **0** - the current focus, an object with the following keys (if **multiMode** is enabled, it will be an array of those objects):
+- **0** - the current focus, an object with the following keys (if **resolutionMode** is **none**, it will be an array of those objects):
     - **index** - section number (0 based)
-    - **focusHeight** - null or height of the section's visible area
-    - **focusIntersection** - null or an array with top coordinate as element 0 and bottom coordinate as element 1<
+    - **intersection** - null or an array with top coordinate as element 0 and bottom coordinate as element 1
     - **section** - DOM element of the section
-    - **isFull** - indicates that the section is entirely in the view area
-    - **asClosest** - indicates that the section was chosen as closest (because no section was directly in the view)
-- **1** - the view, an object with the following keys:
+- **1** - the current view, an object with the following keys:
     - **top** - top coordinate of the view
     - **bottom** - bottom coordinate of the view
 - **2** - an instance of `Shira.ScrollWatch.Watcher`
+
 
 #### Example:
 
@@ -102,6 +102,8 @@ List of all available options.
                 <ul>
                     <li><strong>height</strong> - section that is occupying the largest portion of the view is chosen</li>
                     <li><strong>focus-line</strong> - section that is directly intersecting or is closest to the focus line is chosen</li>
+					<li><strong>custom</strong> - use custom resolver</li>
+                    <li><strong>none</strong> - no resolution is performed (all candidates will be passed to the callback)</li>
                 </ul>
             </td>
         </tr>
@@ -128,13 +130,9 @@ List of all available options.
         <tr>
             <th>throttle</th>
             <td>true</td>
-            <td>When enabled, the callback is invoked only when the active section changes. When disabled, the callback is invoked on every pulse (e.g. on scroll, resize).</td>
+            <td>When enabled, the callback is invoked only when the active section changes. When disabled, the callback is invoked on every pulse (e.g. on scroll, resize). This has no effect when <strong>resolutionMode</strong> is <strong>none</strong>.</td>
         </tr>
         <tr>
-            <th>multiMode</th>
-            <td>false</td>
-            <td>When enabled, the <code>focus</code> argument of the callback will be an array of focus candidates (no resolution will be performed). This is not compatible with the <code>.scrollWatchMapTo()</code> method.</td>
-        </tr>
     </tbody>
 </table>
 
@@ -184,6 +182,32 @@ List of all available options.
             <th>debugFocusLine</th>
             <td>false</td>
             <td>When enabled, position of the focus line will be displayed when scrolling (for debugging purposes).</td>
+        </tr>
+    </tbody>
+</table>
+
+
+### Options specific to resolutionMode = "custom"
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>resolver</th>
+            <td>required</td>
+            <td>Function to invoke when a resolution is needed. It must choose and return <strong>a single focus object</strong>. The following arguments are passed to it:
+                <ul>
+                    <li><strong>0</strong> - array of focus objects (please refer to argument #0 in the "Callbacks arguments" section)</li>
+                    <li><strong>1</strong> - the current view (an object with the following keys: <code>top, bottom</code>)</li>
+					<li><strong>2</strong> - an instance of <code>Shira.ScrollWatch.Watcher</code></li>
+                </ul>
+            <ul><u</td>
         </tr>
     </tbody>
 </table>

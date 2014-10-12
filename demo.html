@@ -7,81 +7,113 @@
     body {padding: 62px 1em 1em 1em; font-family: sans-serif;}
     h1 {margin-top: 0; font-size: 2em;}
     h2 {margin-top: 0; font-size: 1.5em;}
-    h3 {font-size: 1.3em; text-decoration: underline;}
-    a {color: #238923; text-decoration: none;}
+    a {color: #238923; text-decoration: underline;}
+    a:hover {color: #000;}
+    p, li {line-height: 1.5;}
     ul.menu {position: fixed; left: 0; top: 0; margin: 0; padding: 0; width: 100%; border-bottom: 1px solid #808080; background-color: #ccc; font-weight: bold;}
-    ul.menu > li {float: left; list-style-type: none;}
+    ul.menu > li {float: left; list-style-type: none; line-height: initial;}
     ul.menu > li.active {background-color: #999;}
     ul.menu > li.active > a {color: #fff;}
-    ul.menu > li > a {display: block; padding: 1em; color: #000;}
+    ul.menu > li > a {display: block; padding: 1em; color: #000; text-decoration: none;}
     body > ul.menu {z-index: 10;}
     div.section {margin: 3em 0; padding: 2em; border-width: 1px 0; border-style: dashed; border-color: #808080; background-color: #eee;}
     table th, table td {border: 1px solid #808080; padding: 0.2em 0.5em;}
     table th {text-align: left;}
-    #custom {width: 700px; border: 1px solid #808080;}
-    #custom > ul.menu {position: static; height: 52px; width: auto;}
-    #custom > div {height: 300px; position: relative; overflow: scroll; background-color: #eee;}
-    #custom > div > div {border-bottom: 1px solid #808080; line-height: 300px; font-size: 70px; text-align: center;}
+    #wrapper {min-width: 750px; max-width: 1024px;}
+    #scrollable {width: 700px; border: 1px solid #808080;}
+    #scrollable > ul.menu {position: static; height: 52px; width: auto;}
+    #scrollable > div {height: 300px; position: relative; overflow-y: scroll; background-color: #eee;}
+    #scrollable > div > div {border-bottom: 1px solid #808080; line-height: 300px; font-size: 70px; text-align: center;}
 </style>
 </head>
 
 <body>
 
-    <ul id="main-menu" class="menu">
-        <li><a href="#lorem">Lorem</a></li>
-        <li><a href="#ipsum">Ipsum</a></li>
-        <li><a href="#dolor">Dolor</a></li>
-        <li><a href="#sit">Sit</a></li>
-        <li><a href="#custom">Custom scroller</a></li>
-        <li><a href="#custom_3">Custom scroller @ 3</a></li>
-    </ul>
+    <div id="wrapper">
 
-    <div class="section" id="lorem">
-        <p>Lorem ipsum dolor sit amet consectetuer Maecenas cursus Curabitur convallis lorem. Dui ante dictum turpis rhoncus Curabitur leo interdum cursus Curabitur neque. Semper elit mauris suscipit nibh condimentum tristique vestibulum tempus dictumst lorem. Orci tortor nec sed lobortis turpis In tincidunt vestibulum wisi dui. Congue Morbi montes eget Nullam cursus a aliquam laoreet.</p>
-        <p>Sed pulvinar habitasse iaculis ipsum eu fames natoque senectus eu auctor. Mus facilisis vel dui vestibulum quam Morbi sollicitudin accumsan condimentum malesuada. At elit Proin Nunc adipiscing Pellentesque et neque dui sollicitudin venenatis. Metus Aenean ut In tincidunt sem vel euismod Aliquam quis sapien. Nibh condimentum parturient tellus et orci Maecenas quis turpis pharetra mus. Tellus ipsum orci ut sed dui ac nulla Lorem purus neque. Eu Morbi pretium vitae metus laoreet pretium Aliquam quis fermentum augue. Orci rutrum arcu est ut ultrices vel sed justo tempor dui. Elit Sed ut ipsum sem tortor sed facilisi elit ac a. Et convallis montes massa tellus lorem lorem amet urna orci cursus. Vitae et enim id Aliquam euismod semper mollis Lorem libero eget. Tellus orci a adipiscing ac Sed eleifend adipiscing elit pellentesque ut. Augue eros tellus ipsum ornare tincidunt vitae tortor Nam Vestibulum at. Arcu vel pretium fermentum elit ut non Duis.</p>
-        <p>Phasellus Aliquam sodales Curabitur diam mauris parturient nec mus leo eros. Scelerisque consectetuer et at Sed Nam ac eget Integer Vestibulum sed. Ante lobortis ipsum pretium Vestibulum purus Nunc eu dui Aliquam pellentesque. Hendrerit semper pellentesque a Nunc tempor laoreet nibh elit tristique eleifend. Tempor adipiscing Curabitur massa neque justo quis Aenean libero Donec Ut. Tempor et Quisque non tellus nunc turpis Vivamus ac quis metus. Mauris sollicitudin In Curabitur et Quisque orci Ut nunc sem lobortis. Consequat commodo sit metus Vivamus Aliquam augue habitasse lacus sollicitudin felis. Enim enim leo sapien justo a sed libero et ac porttitor. Nunc.</p>
-        <p>Fusce vel eu justo id Nam Pellentesque Nulla penatibus sit nibh. Ligula eget id ante Nam est congue vitae tortor id morbi. Enim id ullamcorper mi dui suscipit dictumst eros lacus ipsum et. At semper wisi hendrerit odio id interdum egestas et magnis elit. Quis quis sodales sed orci at odio wisi Praesent elit turpis. Lorem Morbi feugiat quis et dolor risus semper Pellentesque nibh neque. Sed vitae fringilla Proin orci et lacus volutpat ultrices aliquam mollis. Nec mus at hendrerit purus sed mauris non Pellentesque tincidunt dolor. Laoreet vel urna Mauris et Proin lacus magna nec pulvinar tellus. Semper Phasellus vitae ut parturient Morbi pretium Maecenas cursus id ligula. Sollicitudin nulla id Duis eros sit mauris facilisi ipsum Proin mi. Mauris consequat volutpat Vestibulum sagittis mi eu habitasse tincidunt libero Pellentesque. Neque sapien a vitae augue sollicitudin nec tellus sit Sed ante. Et et et et Maecenas vitae Phasellus adipiscing mauris eros Sed. Auctor Nunc Phasellus tellus nulla cursus Integer risus dui at tincidunt. Vel lobortis ipsum auctor convallis mauris ligula enim Phasellus id dolor. Pede In.</p>
-    </div>
+        <h1>ScrollWatch demo</h1>
 
-    <div class="section" id="ipsum">
-        <p>Lacus turpis risus dapibus elit lorem tristique Phasellus dui felis Quisque. Velit orci neque ac enim in Curabitur venenatis enim convallis amet. Nibh egestas justo felis Lorem Nunc gravida tincidunt Sed euismod tincidunt. Et vel Sed et pretium ac semper ac wisi Cras habitasse. Sed sit augue senectus et adipiscing sagittis auctor ac eros aliquet. Hac eget arcu a justo tempus Vestibulum consectetuer ut sodales ut. Eget tempor ut at mi tincidunt mi id amet hac at. Dui senectus Mauris cursus velit id enim magna congue Ut et. Curabitur at auctor Vestibulum Vivamus quis pellentesque tristique odio aliquet sit. Urna Morbi pretium faucibus mauris pellentesque ac elit malesuada hendrerit Suspendisse. Senectus Aenean convallis Pellentesque risus ac nunc volutpat Vestibulum pretium mattis. Tristique lacus pellentesque vel Nullam mauris nunc mus scelerisque lacus elit. Adipiscing Nulla sem felis mattis montes sit at a interdum Vestibulum. Dolor pretium adipiscing parturient dui ante leo euismod adipiscing id volutpat. Hac enim ut pede Quisque elit auctor tortor sollicitudin neque id. In id tellus arcu pharetra iaculis pretium libero Nam Cum Nam. Commodo wisi felis tristique Ut eros Lorem eget suscipit Aliquam tristique. Ligula laoreet id.</p>
-        <p>Et volutpat id nascetur Vestibulum gravida consectetuer at sem libero egestas. Iaculis hendrerit Sed ligula auctor Curabitur id pellentesque interdum tempus semper. Fringilla quis nunc tempus rutrum Nam neque ligula adipiscing neque nibh. Montes elit interdum Aenean mauris Aenean tellus nascetur natoque pede tempor. Pretium semper Suspendisse dui odio elit Cum semper lacinia fringilla Nam. Leo Maecenas euismod ultrices tempus Nam rutrum eget sed eu Sed. Eros Quisque Curabitur sed montes ac nunc eu Nam odio hendrerit. Fermentum condimentum velit Donec elit hendrerit facilisi lacinia nibh In molestie. A sodales convallis Morbi turpis semper suscipit egestas id turpis Nulla. Turpis Sed aliquam elit dictumst nibh turpis ut Vestibulum interdum ultrices. Nec Integer congue Vestibulum lacinia et Nam Suspendisse pede gravida quis. Phasellus penatibus eros turpis Quisque Nunc nec Suspendisse Quisque id justo. Enim urna eget malesuada hendrerit dictumst accumsan ut Sed leo interdum. Leo Suspendisse convallis Nullam egestas malesuada mollis feugiat Vivamus euismod metus. Sociis non orci et augue congue tristique nibh risus elit et. Mollis magna Praesent tellus lacinia elit libero mauris Aenean auctor risus. Gravida Aenean Aliquam metus interdum mi ac vel pretium sapien wisi. Suspendisse tellus ut sed sit orci facilisi iaculis ac et neque. Elit et et elit vestibulum nulla quis sem risus In tempus. Scelerisque Vivamus morbi nulla orci nibh wisi tellus sed non nascetur. Nam Aenean morbi tempus sem Curabitur nibh.</p>
-        <p>Orci ridiculus lorem orci Nulla eros ipsum id metus Integer vestibulum. Montes platea Pellentesque Praesent Vestibulum justo Nulla velit montes condimentum Duis. Nullam facilisis Nam orci pretium dui lacus Nam a Pellentesque dignissim. Condimentum semper parturient laoreet sed dolor congue tincidunt risus accumsan justo. Et ac et mauris Curabitur Vivamus Vestibulum Donec egestas Sed ante. Habitasse suscipit dictum dui In dui vitae In condimentum dui pellentesque. Convallis Nunc et Aliquam sodales orci morbi interdum sed risus Nam. Eget elit Vivamus ante semper Phasellus vitae ut porttitor egestas Ut. Orci odio enim enim habitasse lorem egestas ac Sed Aliquam pellentesque. Curabitur In facilisis dictumst Vestibulum et ipsum auctor laoreet Sed Quisque. Suscipit pede velit semper Vestibulum venenatis dapibus et Morbi lacus Curabitur. Sollicitudin lorem congue Nam Praesent dictumst laoreet cursus et cursus laoreet. Justo magnis nibh massa Vivamus ligula vitae lacinia ipsum semper dictumst. Vitae et nec ligula wisi enim vel ultrices vitae Sed elit. Id Duis elit auctor justo tellus Quisque Aenean nulla ut a. Tempus ultrices Curabitur justo massa massa tellus dignissim dictumst tincidunt nibh. Enim non Lorem sollicitudin magna tempus.</p>
-        <p>Tincidunt pede In Vestibulum quis dui laoreet elit tincidunt et mauris. Ornare porta ultrices consequat nec urna neque Aenean tortor interdum mus. Hendrerit metus risus lorem vitae est a cursus netus Curabitur Vivamus. Augue ut turpis habitant lorem quis consectetuer eu Aliquam enim at. Non auctor id nec justo enim eros et massa lacinia ipsum. Aliquam Vestibulum a vel nec Curabitur parturient eros laoreet tincidunt enim. Elit semper accumsan a eu Quisque Vestibulum interdum Nulla tempor magna. Elit tempor nunc est elit augue volutpat facilisi nibh dui et. Dis orci at pretium adipiscing eros non a consectetuer est leo. Consequat in In hendrerit montes velit pretium dapibus mollis Curabitur odio. Vestibulum id eget elit a eu augue amet enim pretium feugiat. Ut nunc Curabitur et interdum sociis et urna pellentesque eros parturient. Lacinia Morbi pede elit orci felis vitae est Nulla sem enim. Eu turpis mauris sed Aenean leo et et laoreet lacinia elit. Curabitur laoreet ullamcorper rutrum et nibh malesuada dolor Nunc.</p>
-    </div>
+        <p>Try scrolling and watch the horizontal menu react.</p>
 
-    <div class="section" id="dolor">
-        <p>Urna id laoreet Ut nibh Nam habitant nulla montes ornare felis. Eu amet neque gravida quis diam Integer felis nunc wisi Integer. Duis Maecenas auctor Phasellus et convallis sed hac Nam justo lacus. Dolor Phasellus morbi wisi Phasellus Nunc Vestibulum at tortor in pretium. Donec a ridiculus Vivamus auctor dignissim porttitor libero eleifend mauris Vivamus. Condimentum tincidunt egestas est venenatis in odio velit semper turpis Curabitur. Malesuada pretium Curabitur ligula Vestibulum a dolor commodo montes pretium id. Orci Morbi Sed Pellentesque Proin nec nulla Cras Quisque congue Fusce. Elit pellentesque id ipsum lorem condimentum et laoreet Curabitur a quis. Arcu adipiscing faucibus et eget neque est Donec gravida sem id. Ac facilisi eu Pellentesque lacus pretium et mauris eget eget Morbi. Mus Phasellus Sed et semper feugiat nulla nec tincidunt Curabitur tincidunt. Et orci Aenean ligula sed sed diam elit velit Donec lacus. Est ornare Sed risus pede leo nec at justo non ut. Congue sed laoreet at lobortis Vivamus libero Nulla velit pretium Morbi. Mollis netus vitae laoreet turpis ipsum tortor tempus ac Vestibulum condimentum. Et quis in laoreet fames tincidunt congue Vestibulum Nam est enim. Enim Suspendisse nibh convallis Lorem sit aliquam vitae nunc semper consectetuer. Lorem elit et et tempus feugiat mauris id Nunc cursus a. Nulla ipsum id pretium consectetuer adipiscing laoreet ante nulla gravida interdum. Et id accumsan vitae vel Phasellus Aenean felis eget urna Donec. Consectetuer tincidunt Aliquam.</p>
-        <p>Vel vitae auctor Nulla eu nunc nisl velit Donec pretium laoreet. Elit laoreet tempor montes condimentum eros non Sed ultrices Sed risus. Curabitur id Mauris Donec libero urna eu malesuada Phasellus a Donec. Nunc velit nonummy ultrices tempus Sed auctor feugiat Pellentesque vel elit. Cursus et eros porttitor facilisi justo pharetra felis nec nibh Sed. Tempus justo vel interdum lacinia lorem convallis penatibus montes nibh malesuada. Suspendisse pellentesque gravida Donec tincidunt vitae consequat lorem tellus Sed Aenean. Sem ac Morbi euismod Phasellus tristique Quisque dis molestie massa sem. Phasellus consequat Nulla leo enim Morbi dignissim ridiculus Suspendisse nunc justo. Sed volutpat id quis nec Vestibulum.</p>
-        <p>Tincidunt at Aenean Nulla Phasellus vitae sem nulla Vestibulum adipiscing at. Lacus ut Nullam odio Aliquam orci scelerisque Aenean sociis neque hac. Dui semper tristique dis id id vitae risus eros pellentesque auctor. Nunc Integer orci Sed urna Curabitur semper pellentesque tincidunt id congue. Sed augue ornare porta sit risus nibh dolor facilisis interdum Vestibulum. Eros id convallis eu ac ipsum amet eu egestas commodo metus. Condimentum et consequat justo Morbi nulla tincidunt pretium et Duis id. Augue feugiat at dui Aliquam Nunc pretium scelerisque Curabitur lacus Vestibulum. Metus Nunc accumsan Lorem purus consectetuer nibh tellus ut consectetuer leo. Et id nunc pellentesque velit neque dis Curabitur nulla semper auctor. </p>
-        <p>Morbi ut in sit pharetra et amet vitae sed diam ante. Mauris Curabitur accumsan Nulla tortor tempus egestas ultrices laoreet semper tellus. Eu orci laoreet consectetuer wisi Sed netus ac massa wisi pulvinar. Morbi augue tristique augue et ut fringilla nonummy commodo felis Nunc. Id diam Pellentesque eget amet felis penatibus Donec Suspendisse Vestibulum faucibus. Sed justo vestibulum vel Vestibulum senectus convallis Sed nibh vitae nulla. A mauris faucibus Integer augue est tortor commodo vel iaculis felis. Magnis.</p>
-    </div>
-
-    <div class="section" id="sit">
-        <p>Est Nulla pede Vestibulum congue In id Nullam wisi Vestibulum Nulla. At wisi nascetur sem ligula quis eros amet quis mauris consectetuer. Pellentesque dolor eu consequat pellentesque sodales nec Cras cursus wisi sollicitudin. Nam enim lorem vel ut ridiculus consectetuer pede nec amet amet. Elit vel wisi Nam congue lorem Curabitur lorem id Curabitur tortor. Aenean Integer Curabitur euismod Quisque vel eu dictum tempus euismod Ut. Adipiscing sodales amet at tincidunt enim lacus a vel aliquam justo. Sociis eget Morbi tellus Nullam adipiscing hac Maecenas augue sed vel. Id risus Ut nibh ante congue penatibus tempus neque sed Ut. Condimentum pretium lacinia Vestibulum feugiat at amet turpis malesuada pretium adipiscing. Ante Lorem Curabitur In interdum hendrerit Vestibulum Aenean urna libero Quisque. Vel elit orci eget Pellentesque leo elit netus lacus Nunc nibh. Donec hendrerit vitae habitant Nulla condimentum at quis orci nibh lacus. Convallis ipsum Vestibulum Integer condimentum senectus tempus habitasse mi tempus Quisque. Laoreet elit tincidunt wisi consequat facilisi tristique vel Curabitur Aenean orci. Vitae elit condimentum fermentum nulla Aenean lacus sit ligula et sem. Nibh.</p>
-        <p>Lacinia scelerisque id Suspendisse ligula dolor ligula eros nec convallis vel. Suscipit aliquam Proin lacinia accumsan pellentesque ridiculus at urna nonummy nec. Sagittis tempus Nullam tellus ipsum at facilisis Sed ante vitae libero. Mauris et scelerisque lorem non et Aenean aliquam ac fringilla tincidunt. Enim molestie et et id turpis Suspendisse adipiscing Pellentesque augue Duis. Orci mauris lorem sed ipsum nec consequat elit consectetuer et Donec. Condimentum Nam volutpat gravida libero vel turpis lacinia rhoncus Phasellus molestie. Id mauris turpis ac est enim et purus Ut tortor et. Faucibus et convallis Integer dapibus accumsan sodales egestas risus justo Pellentesque. Praesent In nibh fermentum id lacinia ante Vestibulum Nullam orci dui. Ipsum ac urna orci quis nibh Vestibulum dui sit vitae Sed. Venenatis ut laoreet malesuada non Vestibulum quis arcu felis lacus id. Nullam eget condimentum dolor suscipit ut Curabitur euismod justo dictum lacinia. Ut quam mauris tempus tristique Phasellus diam In interdum convallis id. Quisque elit vestibulum Nulla nec elit dictumst ornare semper eu enim. Hendrerit elit sollicitudin Suspendisse Pellentesque et Fusce pellentesque sed pretium mattis. Sit.</p>
-        <p>Volutpat turpis at congue ante hendrerit Curabitur non turpis urna eleifend. Pretium pede enim In sociis In quis tincidunt tristique ut at. Ac felis convallis convallis Nulla diam Pellentesque ipsum eget tellus Suspendisse. Ipsum velit venenatis cursus nibh eleifend et Aenean Donec pede elit. Sapien faucibus nibh non porta convallis.</p>
-        <p>Elit est egestas libero consectetuer dolor lobortis vestibulum lacus quis et. Diam mattis at nibh orci hendrerit Curabitur mauris nibh Vestibulum cursus. Laoreet porttitor Sed elit Aenean tellus Sed urna auctor nunc laoreet. Turpis Nulla habitasse purus mi dis Donec congue et justo nunc. Purus nibh auctor molestie Vivamus ultrices Sed sociis vitae pretium Curabitur. Sagittis quis mauris Sed justo tortor elit magna congue dignissim et. Gravida metus et congue quam vitae dolor Curabitur elit sem ipsum. Ultrices lorem semper vitae ligula ac orci elit tincidunt habitant malesuada. Integer ac et volutpat convallis iaculis Phasellus Sed ut et sed. Dictum enim Donec Cum pede nulla lacinia Curabitur Duis lorem Curabitur. Ipsum tempus Sed pretium Ut egestas ipsum convallis eu Vivamus Aenean. Nunc lacinia nonummy velit interdum augue Donec ornare hendrerit nulla sagittis. Porta Nunc orci justo.</p>
-    </div>
-
-    <div class="section" id="custom">
-
-        <h2>Custom scroller element example</h2>
-
-        <ul id="custom-menu" class="menu">
-            <li><a href="#custom_1">1</a></li>
-            <li><a href="#custom_2">2</a></li>
-            <li><a href="#custom_3">3</a></li>
-            <li><a href="#custom_4">4</a></li>
-            <li><a href="#custom_5">5</a></li>
+        <ul>
+            <li>
+                the top menu uses <code>resolutionMode: 'focus-line'</code>
+                <ul>
+                    <li>section nearest to or intersecting the focus line is chosen</li>
+                    <li><label><input type="checkbox" id="toggleDebugFocusLine"> show debug focus line (scroll to see it)</label></li>
+                </ul>
+            </li>
+            <li>
+                the <a href="#scrollable">scrollable element menu</a> uses <code>resolutionMode: 'height'</code>
+                <ul>
+                    <li>section that occupies most of the view is chosen</li>
+                </ul>
+            </li>
         </ul>
 
-        <div>
-            <div id="custom_1">1</div>
-            <div id="custom_2">2</div>
-            <div id="custom_3">3</div>
-            <div id="custom_4">4</div>
-            <div id="custom_5">5</div>
+        <ul class="menu">
+            <li><a href="#lorem">Lorem</a></li>
+            <li><a href="#ipsum">Ipsum</a></li>
+            <li><a href="#dolor">Dolor</a></li>
+            <li><a href="#sit">Sit</a></li>
+            <li><a href="#scrollable">Scrollable element</a></li>
+            <li><a href="#scrollable_3">Scrollable element @ 3</a></li>
+        </ul>
+
+        <div class="section" id="lorem">
+            <h2>Lorem</h2>
+            <p>Lorem ipsum dolor sit amet consectetuer Maecenas cursus Curabitur convallis lorem. Dui ante dictum turpis rhoncus Curabitur leo interdum cursus Curabitur neque. Semper elit mauris suscipit nibh condimentum tristique vestibulum tempus dictumst lorem. Orci tortor nec sed lobortis turpis In tincidunt vestibulum wisi dui. Congue Morbi montes eget Nullam cursus a aliquam laoreet.</p>
+            <p>Sed pulvinar habitasse iaculis ipsum eu fames natoque senectus eu auctor. Mus facilisis vel dui vestibulum quam Morbi sollicitudin accumsan condimentum malesuada. At elit Proin Nunc adipiscing Pellentesque et neque dui sollicitudin venenatis. Metus Aenean ut In tincidunt sem vel euismod Aliquam quis sapien. Nibh condimentum parturient tellus et orci Maecenas quis turpis pharetra mus. Tellus ipsum orci ut sed dui ac nulla Lorem purus neque. Eu Morbi pretium vitae metus laoreet pretium Aliquam quis fermentum augue. Orci rutrum arcu est ut ultrices vel sed justo tempor dui. Elit Sed ut ipsum sem tortor sed facilisi elit ac a. Et convallis montes massa tellus lorem lorem amet urna orci cursus. Vitae et enim id Aliquam euismod semper mollis Lorem libero eget. Tellus orci a adipiscing ac Sed eleifend adipiscing elit pellentesque ut. Augue eros tellus ipsum ornare tincidunt vitae tortor Nam Vestibulum at. Arcu vel pretium fermentum elit ut non Duis.</p>
+            <p>Phasellus Aliquam sodales Curabitur diam mauris parturient nec mus leo eros. Scelerisque consectetuer et at Sed Nam ac eget Integer Vestibulum sed. Ante lobortis ipsum pretium Vestibulum purus Nunc eu dui Aliquam pellentesque. Hendrerit semper pellentesque a Nunc tempor laoreet nibh elit tristique eleifend. Tempor adipiscing Curabitur massa neque justo quis Aenean libero Donec Ut. Tempor et Quisque non tellus nunc turpis Vivamus ac quis metus. Mauris sollicitudin In Curabitur et Quisque orci Ut nunc sem lobortis. Consequat commodo sit metus Vivamus Aliquam augue habitasse lacus sollicitudin felis. Enim enim leo sapien justo a sed libero et ac porttitor. Nunc.</p>
+            <p>Fusce vel eu justo id Nam Pellentesque Nulla penatibus sit nibh. Ligula eget id ante Nam est congue vitae tortor id morbi. Enim id ullamcorper mi dui suscipit dictumst eros lacus ipsum et. At semper wisi hendrerit odio id interdum egestas et magnis elit. Quis quis sodales sed orci at odio wisi Praesent elit turpis. Lorem Morbi feugiat quis et dolor risus semper Pellentesque nibh neque. Sed vitae fringilla Proin orci et lacus volutpat ultrices aliquam mollis. Nec mus at hendrerit purus sed mauris non Pellentesque tincidunt dolor. Laoreet vel urna Mauris et Proin lacus magna nec pulvinar tellus. Semper Phasellus vitae ut parturient Morbi pretium Maecenas cursus id ligula. Sollicitudin nulla id Duis eros sit mauris facilisi ipsum Proin mi. Mauris consequat volutpat Vestibulum sagittis mi eu habitasse tincidunt libero Pellentesque. Neque sapien a vitae augue sollicitudin nec tellus sit Sed ante. Et et et et Maecenas vitae Phasellus adipiscing mauris eros Sed. Auctor Nunc Phasellus tellus nulla cursus Integer risus dui at tincidunt. Vel lobortis ipsum auctor convallis mauris ligula enim Phasellus id dolor. Pede In.</p>
+        </div>
+
+        <div class="section" id="ipsum">
+            <h2>Ipsum</h2>
+            <p>Lacus turpis risus dapibus elit lorem tristique Phasellus dui felis Quisque. Velit orci neque ac enim in Curabitur venenatis enim convallis amet. Nibh egestas justo felis Lorem Nunc gravida tincidunt Sed euismod tincidunt. Et vel Sed et pretium ac semper ac wisi Cras habitasse. Sed sit augue senectus et adipiscing sagittis auctor ac eros aliquet. Hac eget arcu a justo tempus Vestibulum consectetuer ut sodales ut. Eget tempor ut at mi tincidunt mi id amet hac at. Dui senectus Mauris cursus velit id enim magna congue Ut et. Curabitur at auctor Vestibulum Vivamus quis pellentesque tristique odio aliquet sit. Urna Morbi pretium faucibus mauris pellentesque ac elit malesuada hendrerit Suspendisse. Senectus Aenean convallis Pellentesque risus ac nunc volutpat Vestibulum pretium mattis. Tristique lacus pellentesque vel Nullam mauris nunc mus scelerisque lacus elit. Adipiscing Nulla sem felis mattis montes sit at a interdum Vestibulum. Dolor pretium adipiscing parturient dui ante leo euismod adipiscing id volutpat. Hac enim ut pede Quisque elit auctor tortor sollicitudin neque id. In id tellus arcu pharetra iaculis pretium libero Nam Cum Nam. Commodo wisi felis tristique Ut eros Lorem eget suscipit Aliquam tristique. Ligula laoreet id.</p>
+            <p>Et volutpat id nascetur Vestibulum gravida consectetuer at sem libero egestas. Iaculis hendrerit Sed ligula auctor Curabitur id pellentesque interdum tempus semper. Fringilla quis nunc tempus rutrum Nam neque ligula adipiscing neque nibh. Montes elit interdum Aenean mauris Aenean tellus nascetur natoque pede tempor. Pretium semper Suspendisse dui odio elit Cum semper lacinia fringilla Nam. Leo Maecenas euismod ultrices tempus Nam rutrum eget sed eu Sed. Eros Quisque Curabitur sed montes ac nunc eu Nam odio hendrerit. Fermentum condimentum velit Donec elit hendrerit facilisi lacinia nibh In molestie. A sodales convallis Morbi turpis semper suscipit egestas id turpis Nulla. Turpis Sed aliquam elit dictumst nibh turpis ut Vestibulum interdum ultrices. Nec Integer congue Vestibulum lacinia et Nam Suspendisse pede gravida quis. Phasellus penatibus eros turpis Quisque Nunc nec Suspendisse Quisque id justo. Enim urna eget malesuada hendrerit dictumst accumsan ut Sed leo interdum. Leo Suspendisse convallis Nullam egestas malesuada mollis feugiat Vivamus euismod metus. Sociis non orci et augue congue tristique nibh risus elit et. Mollis magna Praesent tellus lacinia elit libero mauris Aenean auctor risus. Gravida Aenean Aliquam metus interdum mi ac vel pretium sapien wisi. Suspendisse tellus ut sed sit orci facilisi iaculis ac et neque. Elit et et elit vestibulum nulla quis sem risus In tempus. Scelerisque Vivamus morbi nulla orci nibh wisi tellus sed non nascetur. Nam Aenean morbi tempus sem Curabitur nibh.</p>
+            <p>Orci ridiculus lorem orci Nulla eros ipsum id metus Integer vestibulum. Montes platea Pellentesque Praesent Vestibulum justo Nulla velit montes condimentum Duis. Nullam facilisis Nam orci pretium dui lacus Nam a Pellentesque dignissim. Condimentum semper parturient laoreet sed dolor congue tincidunt risus accumsan justo. Et ac et mauris Curabitur Vivamus Vestibulum Donec egestas Sed ante. Habitasse suscipit dictum dui In dui vitae In condimentum dui pellentesque. Convallis Nunc et Aliquam sodales orci morbi interdum sed risus Nam. Eget elit Vivamus ante semper Phasellus vitae ut porttitor egestas Ut. Orci odio enim enim habitasse lorem egestas ac Sed Aliquam pellentesque. Curabitur In facilisis dictumst Vestibulum et ipsum auctor laoreet Sed Quisque. Suscipit pede velit semper Vestibulum venenatis dapibus et Morbi lacus Curabitur. Sollicitudin lorem congue Nam Praesent dictumst laoreet cursus et cursus laoreet. Justo magnis nibh massa Vivamus ligula vitae lacinia ipsum semper dictumst. Vitae et nec ligula wisi enim vel ultrices vitae Sed elit. Id Duis elit auctor justo tellus Quisque Aenean nulla ut a. Tempus ultrices Curabitur justo massa massa tellus dignissim dictumst tincidunt nibh. Enim non Lorem sollicitudin magna tempus.</p>
+            <p>Tincidunt pede In Vestibulum quis dui laoreet elit tincidunt et mauris. Ornare porta ultrices consequat nec urna neque Aenean tortor interdum mus. Hendrerit metus risus lorem vitae est a cursus netus Curabitur Vivamus. Augue ut turpis habitant lorem quis consectetuer eu Aliquam enim at. Non auctor id nec justo enim eros et massa lacinia ipsum. Aliquam Vestibulum a vel nec Curabitur parturient eros laoreet tincidunt enim. Elit semper accumsan a eu Quisque Vestibulum interdum Nulla tempor magna. Elit tempor nunc est elit augue volutpat facilisi nibh dui et. Dis orci at pretium adipiscing eros non a consectetuer est leo. Consequat in In hendrerit montes velit pretium dapibus mollis Curabitur odio. Vestibulum id eget elit a eu augue amet enim pretium feugiat. Ut nunc Curabitur et interdum sociis et urna pellentesque eros parturient. Lacinia Morbi pede elit orci felis vitae est Nulla sem enim. Eu turpis mauris sed Aenean leo et et laoreet lacinia elit. Curabitur laoreet ullamcorper rutrum et nibh malesuada dolor Nunc.</p>
+        </div>
+
+        <div class="section" id="dolor">
+            <h2>Dolor</h2>
+            <p>Urna id laoreet Ut nibh Nam habitant nulla montes ornare felis. Eu amet neque gravida quis diam Integer felis nunc wisi Integer. Duis Maecenas auctor Phasellus et convallis sed hac Nam justo lacus. Dolor Phasellus morbi wisi Phasellus Nunc Vestibulum at tortor in pretium. Donec a ridiculus Vivamus auctor dignissim porttitor libero eleifend mauris Vivamus. Condimentum tincidunt egestas est venenatis in odio velit semper turpis Curabitur. Malesuada pretium Curabitur ligula Vestibulum a dolor commodo montes pretium id. Orci Morbi Sed Pellentesque Proin nec nulla Cras Quisque congue Fusce. Elit pellentesque id ipsum lorem condimentum et laoreet Curabitur a quis. Arcu adipiscing faucibus et eget neque est Donec gravida sem id. Ac facilisi eu Pellentesque lacus pretium et mauris eget eget Morbi. Mus Phasellus Sed et semper feugiat nulla nec tincidunt Curabitur tincidunt. Et orci Aenean ligula sed sed diam elit velit Donec lacus. Est ornare Sed risus pede leo nec at justo non ut. Congue sed laoreet at lobortis Vivamus libero Nulla velit pretium Morbi. Mollis netus vitae laoreet turpis ipsum tortor tempus ac Vestibulum condimentum. Et quis in laoreet fames tincidunt congue Vestibulum Nam est enim. Enim Suspendisse nibh convallis Lorem sit aliquam vitae nunc semper consectetuer. Lorem elit et et tempus feugiat mauris id Nunc cursus a. Nulla ipsum id pretium consectetuer adipiscing laoreet ante nulla gravida interdum. Et id accumsan vitae vel Phasellus Aenean felis eget urna Donec. Consectetuer tincidunt Aliquam.</p>
+            <p>Vel vitae auctor Nulla eu nunc nisl velit Donec pretium laoreet. Elit laoreet tempor montes condimentum eros non Sed ultrices Sed risus. Curabitur id Mauris Donec libero urna eu malesuada Phasellus a Donec. Nunc velit nonummy ultrices tempus Sed auctor feugiat Pellentesque vel elit. Cursus et eros porttitor facilisi justo pharetra felis nec nibh Sed. Tempus justo vel interdum lacinia lorem convallis penatibus montes nibh malesuada. Suspendisse pellentesque gravida Donec tincidunt vitae consequat lorem tellus Sed Aenean. Sem ac Morbi euismod Phasellus tristique Quisque dis molestie massa sem. Phasellus consequat Nulla leo enim Morbi dignissim ridiculus Suspendisse nunc justo. Sed volutpat id quis nec Vestibulum.</p>
+            <p>Tincidunt at Aenean Nulla Phasellus vitae sem nulla Vestibulum adipiscing at. Lacus ut Nullam odio Aliquam orci scelerisque Aenean sociis neque hac. Dui semper tristique dis id id vitae risus eros pellentesque auctor. Nunc Integer orci Sed urna Curabitur semper pellentesque tincidunt id congue. Sed augue ornare porta sit risus nibh dolor facilisis interdum Vestibulum. Eros id convallis eu ac ipsum amet eu egestas commodo metus. Condimentum et consequat justo Morbi nulla tincidunt pretium et Duis id. Augue feugiat at dui Aliquam Nunc pretium scelerisque Curabitur lacus Vestibulum. Metus Nunc accumsan Lorem purus consectetuer nibh tellus ut consectetuer leo. Et id nunc pellentesque velit neque dis Curabitur nulla semper auctor. </p>
+            <p>Morbi ut in sit pharetra et amet vitae sed diam ante. Mauris Curabitur accumsan Nulla tortor tempus egestas ultrices laoreet semper tellus. Eu orci laoreet consectetuer wisi Sed netus ac massa wisi pulvinar. Morbi augue tristique augue et ut fringilla nonummy commodo felis Nunc. Id diam Pellentesque eget amet felis penatibus Donec Suspendisse Vestibulum faucibus. Sed justo vestibulum vel Vestibulum senectus convallis Sed nibh vitae nulla. A mauris faucibus Integer augue est tortor commodo vel iaculis felis. Magnis.</p>
+        </div>
+
+        <div class="section" id="sit">
+            <h2>Sit</h2>
+            <p>Est Nulla pede Vestibulum congue In id Nullam wisi Vestibulum Nulla. At wisi nascetur sem ligula quis eros amet quis mauris consectetuer. Pellentesque dolor eu consequat pellentesque sodales nec Cras cursus wisi sollicitudin. Nam enim lorem vel ut ridiculus consectetuer pede nec amet amet. Elit vel wisi Nam congue lorem Curabitur lorem id Curabitur tortor. Aenean Integer Curabitur euismod Quisque vel eu dictum tempus euismod Ut. Adipiscing sodales amet at tincidunt enim lacus a vel aliquam justo. Sociis eget Morbi tellus Nullam adipiscing hac Maecenas augue sed vel. Id risus Ut nibh ante congue penatibus tempus neque sed Ut. Condimentum pretium lacinia Vestibulum feugiat at amet turpis malesuada pretium adipiscing. Ante Lorem Curabitur In interdum hendrerit Vestibulum Aenean urna libero Quisque. Vel elit orci eget Pellentesque leo elit netus lacus Nunc nibh. Donec hendrerit vitae habitant Nulla condimentum at quis orci nibh lacus. Convallis ipsum Vestibulum Integer condimentum senectus tempus habitasse mi tempus Quisque. Laoreet elit tincidunt wisi consequat facilisi tristique vel Curabitur Aenean orci. Vitae elit condimentum fermentum nulla Aenean lacus sit ligula et sem. Nibh.</p>
+            <p>Lacinia scelerisque id Suspendisse ligula dolor ligula eros nec convallis vel. Suscipit aliquam Proin lacinia accumsan pellentesque ridiculus at urna nonummy nec. Sagittis tempus Nullam tellus ipsum at facilisis Sed ante vitae libero. Mauris et scelerisque lorem non et Aenean aliquam ac fringilla tincidunt. Enim molestie et et id turpis Suspendisse adipiscing Pellentesque augue Duis. Orci mauris lorem sed ipsum nec consequat elit consectetuer et Donec. Condimentum Nam volutpat gravida libero vel turpis lacinia rhoncus Phasellus molestie. Id mauris turpis ac est enim et purus Ut tortor et. Faucibus et convallis Integer dapibus accumsan sodales egestas risus justo Pellentesque. Praesent In nibh fermentum id lacinia ante Vestibulum Nullam orci dui. Ipsum ac urna orci quis nibh Vestibulum dui sit vitae Sed. Venenatis ut laoreet malesuada non Vestibulum quis arcu felis lacus id. Nullam eget condimentum dolor suscipit ut Curabitur euismod justo dictum lacinia. Ut quam mauris tempus tristique Phasellus diam In interdum convallis id. Quisque elit vestibulum Nulla nec elit dictumst ornare semper eu enim. Hendrerit elit sollicitudin Suspendisse Pellentesque et Fusce pellentesque sed pretium mattis. Sit.</p>
+            <p>Volutpat turpis at congue ante hendrerit Curabitur non turpis urna eleifend. Pretium pede enim In sociis In quis tincidunt tristique ut at. Ac felis convallis convallis Nulla diam Pellentesque ipsum eget tellus Suspendisse. Ipsum velit venenatis cursus nibh eleifend et Aenean Donec pede elit. Sapien faucibus nibh non porta convallis.</p>
+            <p>Elit est egestas libero consectetuer dolor lobortis vestibulum lacus quis et. Diam mattis at nibh orci hendrerit Curabitur mauris nibh Vestibulum cursus. Laoreet porttitor Sed elit Aenean tellus Sed urna auctor nunc laoreet. Turpis Nulla habitasse purus mi dis Donec congue et justo nunc. Purus nibh auctor molestie Vivamus ultrices Sed sociis vitae pretium Curabitur. Sagittis quis mauris Sed justo tortor elit magna congue dignissim et. Gravida metus et congue quam vitae dolor Curabitur elit sem ipsum. Ultrices lorem semper vitae ligula ac orci elit tincidunt habitant malesuada. Integer ac et volutpat convallis iaculis Phasellus Sed ut et sed. Dictum enim Donec Cum pede nulla lacinia Curabitur Duis lorem Curabitur. Ipsum tempus Sed pretium Ut egestas ipsum convallis eu Vivamus Aenean. Nunc lacinia nonummy velit interdum augue Donec ornare hendrerit nulla sagittis. Porta Nunc orci justo.</p>
+        </div>
+
+        <div class="section">
+            <h2>Scrollable element example</h2>
+
+            <p>ScrollWatch works inside scrollable elements too.</p>
+
+            <div id="scrollable">
+                <ul class="menu">
+                    <li><a href="#scrollable_1">1</a></li>
+                    <li><a href="#scrollable_2">2</a></li>
+                    <li><a href="#scrollable_3">3</a></li>
+                    <li><a href="#scrollable_4">4</a></li>
+                    <li><a href="#scrollable_5">5</a></li>
+                </ul>
+
+                <div>
+                    <div id="scrollable_1">1</div>
+                    <div id="scrollable_2">2</div>
+                    <div id="scrollable_3">3</div>
+                    <div id="scrollable_4">4</div>
+                    <div id="scrollable_5">5</div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -92,15 +124,23 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            // main menu
-            $('div.section').scrollWatchMapTo('#main-menu > li', null, {
-                resolutionMode: "focus-line",
-                focusRatio: 0.2,
-                viewMarginTop: 53
+            // top menu
+            var topMenuWatcher = $('div.section')
+                .scrollWatchMapTo('#wrapper > ul.menu > li', null, {
+                    resolutionMode: 'focus-line',
+                    viewMarginTop: 53
+                })
+            ;
+
+            $('#toggleDebugFocusLine').change(function () {
+                topMenuWatcher.options.debugFocusLine = this.checked;
+                topMenuWatcher.pulse();
             });
 
-            // custom scroller menu
-            $('#custom > div > div').scrollWatchMapTo('#custom-menu > li');
+            // scrollable element
+            $('#scrollable > div > div')
+                .scrollWatchMapTo('#scrollable > ul.menu > li')
+            ;
 
         });
     </script>
