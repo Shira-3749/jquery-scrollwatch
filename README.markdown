@@ -13,6 +13,7 @@ See `demo.html` for an example.
 - determining which section on the page (or inside a custom scrollable element) is currently active
 - many options, including multiple modes of resolution (visible height, focus line, custom, none)
 - mapping the active section to an "active class" on some list of elements (e.g. menu items)
+- works with zoom (even in MSIE < 9)
 
 
 ## Browser support
@@ -29,6 +30,8 @@ The plugin provides two jQuery methods you can use:
 
 Attaches a watcher to the given sections. The callback is then invoked when the focus
 changes, according to options.
+
+**Warning:** if the sections are inside a scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
 
 - **sections** - selector or an array of elements that represent all the possible sections
 - **callback** - function to invoke when the focus changes
@@ -63,6 +66,8 @@ changes, according to options.
 Attaches a watcher to the given sections and maps the current focus as an "active class"
 to the respective item.
 
+**Warning:** if the sections are inside a scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
+
 - **sections** - selector or an array of elements that represent all the possible sections
 - **items** - selector or an array of elements to map the "active class" to
 - **activeClass** - class name to add to the active item (defaults to "active")
@@ -94,7 +99,7 @@ List of all available options.
         <tr>
             <th>scroller</th>
             <td>null</td>
-            <td>DOM element to watch for scrolling events (window or element with <code>position: relative or absolute</code>). If no element is given, <code>window</code> or first section's offset parent will be used instead.</td>
+            <td>DOM element to watch for scrolling events. <strong>It must be the window or an element with <code>position: relative</code>, <code>absolute</code> or <code>fixed</code>.</strong> If no element is given, <code>window</code> or the first scrollable offset parent will be used instead.</td>
         </tr>
         <tr>
             <th>resolutionMode</th>

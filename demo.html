@@ -12,7 +12,7 @@
     p {margin: 1em 0; padding: 0.5em;}
     p, li {line-height: 1.5;}
     ul.menu {position: fixed; left: 0; top: 0; margin: 0; padding: 0; width: 100%; background-color: #000; font-weight: bold;}
-    ul.menu > li {float: left; list-style-type: none; line-height: initial;}
+    ul.menu > li {float: left; list-style-type: none; line-height: 1;}
     ul.menu > li.active {background-color: #238923;}
     ul.menu > li > a {display: block; padding: 1em; color: #fff; text-decoration: none;}
     body > ul.menu {z-index: 10;}
@@ -21,9 +21,9 @@
     #header {margin-bottom: 1em; padding: 5em; background-color: #dcdcdc; text-align: center;}
     #header p {background-color: #eee;}
     #scrollable {border: 1px solid #808080;}
-    #scrollable > ul.menu {position: static; height: 52px; width: auto;}
-    #scrollable > div {height: 300px; position: relative; overflow-y: scroll; background-color: #eee;}
-    #scrollable > div > div {border-bottom: 1px solid #808080; line-height: 300px; font-size: 70px; text-align: center;}
+    #scrollable > ul.menu {position: static; height: 48px; width: auto;}
+    #scrollable > div.scroller {height: 300px; overflow-y: scroll; position: relative; background-color: #eee;}
+    #scrollable > div.scroller > div {border-bottom: 1px solid #808080; line-height: 300px; font-size: 70px; text-align: center;}
 </style>
 </head>
 
@@ -97,7 +97,7 @@
                     <li><a href="#scrollable_5">5</a></li>
                 </ul>
 
-                <div>
+                <div class="scroller">
                     <div id="scrollable_1">1</div>
                     <div id="scrollable_2">2</div>
                     <div id="scrollable_3">3</div>
@@ -129,7 +129,7 @@
             });
 
             // scrollable element
-            $('#scrollable > div > div')
+            $('#scrollable > div.scroller > div')
                 .scrollWatchMapTo('#scrollable > ul.menu > li')
             ;
 

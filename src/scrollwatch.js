@@ -28,16 +28,11 @@ var Shira;
                 // provided
                 this.scroller = this.options.scroller;
             } else {
-                // determine from sections
-                var offsetParent = sections[0].offsetParent;
+                // guess
+                this.scroller = this.guessScroller(sections[0]);
 
-                if (null === offsetParent) {
+                if (!this.scroller) {
                     throw new Error('Could not determine scroller of the given sections, please provide the "scroller" option');
-                }
-                if (document.body === offsetParent) {
-                    this.scroller = window;
-                } else {
-                    this.scroller = offsetParent;
                 }
             }
 
@@ -91,6 +86,32 @@ var Shira;
             },
 
             /**
+             * Try to guess scroller for the given element
+             *
+             * @param {HTMLElement} elem
+             * @return {HTMLElement|Window|null}
+             */
+            guessScroller: function (elem) {
+                var scrollable = false;
+
+                while (!scrollable) {
+                    elem = elem.offsetParent;
+
+                    if (elem && 1 === elem.nodeType && 'BODY' !== elem.tagName && 'HTML' !== elem.tagName) {
+                        var overflowY = $(elem).css('overflow-y');
+                        scrollable = 'auto' === overflowY || 'scroll' === overflowY;
+                    } else {
+                        elem = window;
+                        scrollable = true;
+                    }
+                }
+
+                if (scrollable) {
+                    return elem;
+                }
+            },
+
+            /**
              * Get intersection of two inervals
              * Requirements: aLeft < aRight, bLeft < bRight
              *
@@ -117,11 +138,10 @@ var Shira;
             updateSectionBoundaries: function () {
                 this.sectionBoundaries = [];
 
-                var sectionEnd;
                 for (var i = 0; i < this.sections.length; ++i) {
-                    var elementY = this.getElementY(this.sections[i], this.scroller);
-                    sectionEnd = elementY + this.sections[i].offsetHeight;
-                    this.sectionBoundaries.push([elementY, sectionEnd, sectionEnd - elementY]);
+                    var top = this.getElementY(this.sections[i], this.scroller);
+                    var bottom = top + this.sections[i].offsetHeight;
+                    this.sectionBoundaries.push([top, bottom]);
                 }
                 this.sectionBoundaries.sort(this.sortSectionBoundaries);
             },
@@ -205,13 +225,14 @@ var Shira;
                     });
                 } else {
                     // find intersecting sections
-                    for (var i = 0; i < this.sectionBoundaries.length; ++i) {
+                    for (var i = 0; i < this.sectionBoundaries.length; ++i) {                        
                         var intersection = this.getIntersection(
                             view.top,
                             view.bottom,
                             this.sectionBoundaries[i][0],
                             this.sectionBoundaries[i][1]
                         );
+
                         if (null !== intersection) {
                             focusCandidates.push({
                                 index: i,
