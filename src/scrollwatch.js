@@ -350,7 +350,7 @@ var Shira;
                 var that = this;
 
                 if (null === this.debugFocusLine) {
-                    this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-bottom:1px solid red;z-index:10000;box-shadow: 0 0 5px black;"></div>')
+                    this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-bottom:1px solid white;outline:1px solid black;z-index:10000;box-shadow: 0 0 5px black;"></div>')
                         .appendTo(window === this.scroller ? document.body : this.scroller)
                     ;
                 }
@@ -382,41 +382,37 @@ var Shira;
              * Attach the watcher
              */
             attach: function () {
-                if (this.attached) {
-                    throw new Error('Already attached');
+                if (!this.attached) {
+                    var that = this;
+
+                    this.updateEventHandler = function () {
+                        that.pulse();
+                    };
+
+                    $(this.scroller).scroll(this.updateEventHandler);
+
+                    if (window === this.scroller) {
+                        $(this.scroller).resize(this.updateEventHandler);
+                    }
+
+                    this.attached = true;
+                    this.pulse();
                 }
-
-                var that = this;
-
-                this.updateEventHandler = function () {
-                    that.pulse();
-                };
-
-                $(this.scroller).scroll(this.updateEventHandler);
-
-                if (window === this.scroller) {
-                    $(this.scroller).resize(this.updateEventHandler);
-                }
-
-                this.attached = true;
-                this.pulse();
             },
 
             /**
              * Detach the watcher
              */
             detach: function () {
-                if (!this.attached) {
-                    throw new Error('Not attached');
+                if (this.attached) {
+                    $(this.scroller).unbind('scroll', this.updateEventHandler);
+
+                    if (window === this.scroller) {
+                        $(this.scroller).unbind('resize');
+                    }
+
+                    this.attached = false;
                 }
-
-                $(this.scroller).unbind('scroll', this.updateEventHandler);
-
-                if (window === this.scroller) {
-                    $(this.scroller).unbind('resize');
-                }
-
-                this.attached = false;
             },
 
             /**
@@ -524,7 +520,7 @@ var Shira;
          */
         $.fn.scrollWatch = function (callback, options) {
             if (this.length >= 1) {
-                var watcher = new ScrollWatch.Watcher(this, callback, options);
+                var watcher = new ScrollWatch.Watcher(this.toArray(), callback, options);
                 watcher.attach();
 
                 return watcher;
@@ -547,11 +543,8 @@ var Shira;
                     items = $(items);
                 }
 
-                var watcher = new ScrollWatch.Watcher(
-                    this,
-                    new ScrollWatch.ActiveClassMapper(items, activeClass).getWatcherCallback(),
-                    options
-                );
+                var callback = new ScrollWatch.ActiveClassMapper(items, activeClass).getWatcherCallback();
+                var watcher = new ScrollWatch.Watcher(this.toArray(), callback, options);
                 watcher.attach();
                 
                 return watcher;

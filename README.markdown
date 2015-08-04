@@ -1,18 +1,15 @@
 # ScrollWatch
 
-jQuery plugin for determining active sections on the page based on viewport scrolling.
+jQuery plugin for determining active sections on the page based on scrolling.
 
-
-## Demo
-
-See `demo.html` for an example.
+[Demo](http://htmlpreview.github.io/?http://github.com/ShiraNai7/jquery-scrollwatch/blob/master/demo.html)
 
 
 ## Features
 
-- determining which section on the page (or inside a custom scrollable element) is currently active
-- many options, including multiple modes of resolution (visible height, focus line, custom, none)
-- mapping the active section to an "active class" on some list of elements (e.g. menu items)
+- determining active section(s)
+- mapping active class to a list of elements (e.g. menu items)
+- many options, including multiple modes of resolution
 - works with zoom (even in MSIE < 9)
 
 
@@ -31,7 +28,7 @@ The plugin provides two jQuery methods you can use:
 Attaches a watcher to the given sections. The callback is then invoked when the focus
 changes, according to options.
 
-**Warning:** if the sections are inside a scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
+**Warning:** if the sections are inside a custom scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
 
 - **sections** - selector or an array of elements that represent all the possible sections
 - **callback** - function to invoke when the focus changes
@@ -54,7 +51,7 @@ changes, according to options.
 
 #### Example:
 
-    $(document).ready(function () {
+    $(function () {
         $('div.section').scrollWatch(function (focus) {
             console.log(focus);
         });
@@ -66,7 +63,7 @@ changes, according to options.
 Attaches a watcher to the given sections and maps the current focus as an "active class"
 to the respective item.
 
-**Warning:** if the sections are inside a scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
+**Warning:** if the sections are inside a custom scrollable element, that element **must** have `position: relative`, `absolute` or `fixed`.
 
 - **sections** - selector or an array of elements that represent all the possible sections
 - **items** - selector or an array of elements to map the "active class" to
@@ -78,7 +75,7 @@ to the respective item.
 
 #### Example:
 
-    $(document).ready(function () {
+    $(function () {
         $('div.section').scrollWatchMapTo('#menu > li');
     });
 
