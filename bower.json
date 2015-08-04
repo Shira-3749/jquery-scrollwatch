@@ -1,7 +1,7 @@
 {
     "name": "jquery-scrollwatch",
-    "description": "jQuery plugin for determining active sections on the page based on viewport scrolling.",
-    "version": "2.0.0",
+    "description": "jQuery plugin for determining active sections on the page based on scrolling.",
+    "version": "2.0.1",
     "license": "MIT",
     "keywords": [
         "js",
