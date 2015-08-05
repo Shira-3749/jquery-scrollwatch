@@ -34,8 +34,6 @@ changes, according to options.
 - **callback** - function to invoke when the focus changes
 - **options** - object with various settings (see list far below)
 
-**Returns:** an instance of `Shira.ScrollWatch.Watcher` or `false` if no sections were given / matched.
-
 
 #### Callback arguments
 
@@ -70,8 +68,6 @@ to the respective item.
 - **activeClass** - class name to add to the active item (defaults to "active")
 - **options** - object with various settings (see list far below)
 
-**Returns:** an instance of `Shira.ScrollWatch.Watcher` or `false` if no sections were given / matched.
-
 
 #### Example:
 
@@ -80,7 +76,7 @@ to the respective item.
     });
 
 
-### Options
+## Options
 
 List of all available options.
 
@@ -140,7 +136,7 @@ List of all available options.
 </table>
 
 
-### Options specific to resolutionMode = "height"
+### Options for resolutionMode = height
 
 <table>
     <thead>
@@ -160,7 +156,7 @@ List of all available options.
 </table>
 
 
-### Options specific to resolutionMode = "focus-line"
+### Options for resolutionMode = focus-line
 
 <table>
     <thead>
@@ -190,7 +186,7 @@ List of all available options.
 </table>
 
 
-### Options specific to resolutionMode = "custom"
+### Options for resolutionMode = custom
 
 <table>
     <thead>
@@ -214,3 +210,12 @@ List of all available options.
         </tr>
     </tbody>
 </table>
+
+
+### Data
+
+The following data attributes are available after the plugin is applied to a scroller.
+
+Call `$(scroller).data('key')` to access the value.
+
+- `shira.scrollwatch` - instance of `Shira.ScrollWatch.Watcher`

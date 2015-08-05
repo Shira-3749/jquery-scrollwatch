@@ -115,16 +115,19 @@
     <script type="text/javascript">
         $(function () {
             // top menu
-            var topMenuWatcher = $('div.section')
+            $('div.section')
                 .scrollWatchMapTo('#wrapper > ul.menu > li', null, {
                     resolutionMode: 'focus-line',
                     viewMarginTop: 53
                 })
             ;
 
+            // debug focus line checkbox
             $('#toggleDebugFocusLine').change(function () {
-                topMenuWatcher.options.debugFocusLine = this.checked;
-                topMenuWatcher.pulse();
+                var watcher = $(window).data('shira.scrollwatch');
+
+                watcher.options.debugFocusLine = this.checked;
+                watcher.pulse();
             });
 
             // scrollable element

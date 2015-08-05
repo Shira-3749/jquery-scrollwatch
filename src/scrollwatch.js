@@ -39,6 +39,8 @@ var Shira;
             this.lastFocus = null;
             this.debugFocusLine = null;
             this.debugFocusLineTimeout = null;
+
+            $(this.scroller).data('shira.scrollwatch', this);
         };
 
         ScrollWatch.Watcher.defaults = {
@@ -519,14 +521,11 @@ var Shira;
          * @returns {ScrollWatch.Watcher|Boolean} false if no sections were matched
          */
         $.fn.scrollWatch = function (callback, options) {
-            if (this.length >= 1) {
-                var watcher = new ScrollWatch.Watcher(this.toArray(), callback, options);
-                watcher.attach();
-
-                return watcher;
-            } else {
-                return false;
+            if (this.length > 0) {
+                new ScrollWatch.Watcher(this.toArray(), callback, options).attach();
             }
+
+            return this;
         };
 
         /**
@@ -538,19 +537,22 @@ var Shira;
          * @param {Object}              options     watcher option map
          */
         $.fn.scrollWatchMapTo = function(items, activeClass, options) {
-            if (this.length >= 1) {
+            if (this.length > 0) {
                 if ('string' === typeof items) {
-                    items = $(items);
+                    items = $(items).toArray();
+                } else if (items instanceof $) {
+                    items = items.toArray();
+                } else if (!(items instanceof Array)) {
+                    throw new Error('Invalid items - expected a selector, array or a jQuery object');
                 }
 
                 var callback = new ScrollWatch.ActiveClassMapper(items, activeClass).getWatcherCallback();
                 var watcher = new ScrollWatch.Watcher(this.toArray(), callback, options);
-                watcher.attach();
                 
-                return watcher;
-            } else {
-                return false;
+                watcher.attach();
             }
+
+            return this;
         };
     })(Shira.ScrollWatch || (Shira.ScrollWatch = {}));
 })(Shira || (Shira = {}), jQuery);
