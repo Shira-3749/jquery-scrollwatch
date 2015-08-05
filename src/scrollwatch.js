@@ -518,7 +518,7 @@ var Shira;
          * 
          * @param {Function} callback function to call when the focus changes
          * @param {Object}   options  watcher option map
-         * @returns {ScrollWatch.Watcher|Boolean} false if no sections were matched
+         * @returns {jQuery}
          */
         $.fn.scrollWatch = function (callback, options) {
             if (this.length > 0) {
@@ -535,6 +535,7 @@ var Shira;
          * @param {Array|jQuery|String} items       array of DOM elements, jQuery object or a selector
          * @param {String}              activeClass name to add to the active item
          * @param {Object}              options     watcher option map
+         * @returns {jQuery}
          */
         $.fn.scrollWatchMapTo = function(items, activeClass, options) {
             if (this.length > 0) {
