@@ -296,6 +296,7 @@ var Shira;
 
                         // choose using intersection or distance from the focus line
                         case 'focus-line':
+                            var i;
                             var viewFocusLineOffset = view.top + (view.bottom - view.top) * this.options.focusRatio + this.options.focusOffset;
 
                             if (this.options.debugFocusLine) {
@@ -303,7 +304,7 @@ var Shira;
                             }
 
                             // find direct intersection with the focus line
-                            for (var i = 0; i < focusCandidates.length; ++i) {
+                            for (i = 0; i < focusCandidates.length; ++i) {
                                 if (focusCandidates[i].intersection[0] <= viewFocusLineOffset && focusCandidates[i].intersection[1] >= viewFocusLineOffset) {
                                     chosenCandidate = focusCandidates[i];
                                     break;
@@ -312,7 +313,7 @@ var Shira;
 
                             // find nearest candidate if no direct intersection exists
                             if (null === chosenCandidate) {
-                                for (var i = 0; i < focusCandidates.length; ++i) {
+                                for (i = 0; i < focusCandidates.length; ++i) {
                                     focusCandidates[i].focusRatioOffsetDistance = Math.min(
                                         Math.abs(focusCandidates[i].intersection[0] - viewFocusLineOffset),
                                         Math.abs(focusCandidates[i].intersection[1] - viewFocusLineOffset)
@@ -474,13 +475,15 @@ var Shira;
              * @param {Array} newActiveIndexes
              */
             handleFocusChange: function (newActiveIndexes) {
+                var i;
                 var toDeactivate = $(this.currentActiveIndexes).not(newActiveIndexes).get();
-                for (var i = 0; i < toDeactivate.length; ++i) {
+                var toActivate = $(newActiveIndexes).not(this.currentActiveIndexes).get();
+
+                for (i = 0; i < toDeactivate.length; ++i) {
                     $(this.items[toDeactivate[i]]).removeClass(this.activeClass);
                 }
 
-                var toActivate = $(newActiveIndexes).not(this.currentActiveIndexes).get();
-                for (var i = 0; i < toActivate.length; ++i) {
+                for (i = 0; i < toActivate.length; ++i) {
                     $(this.items[toActivate[i]]).addClass(this.activeClass);
                 }
 
