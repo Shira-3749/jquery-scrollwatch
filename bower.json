@@ -2,18 +2,13 @@
     "name": "jquery-scrollwatch",
     "description": "jQuery plugin for determining active sections on the page based on scrolling.",
     "license": "MIT",
-    "keywords": [
-        "js",
-        "jquery",
-        "scroll",
-        "watch",
-        "detect"
-    ],
+    "keywords": ["jQuery", "scrollwatch", "scroll", "navigation", "active", "class"],
     "main": [
         "src/scrollwatch.js"
     ],
     "ignore": [
-        ".*"
+        "/.gitattributes",
+        "/demo.html"
     ],
     "dependencies": {
         "jquery": ">= 1.9.0"
