@@ -354,8 +354,7 @@ var Shira;
 
                 if (null === this.debugFocusLine) {
                     this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-bottom:1px solid white;outline:1px solid black;z-index:10000;box-shadow: 0 0 5px black;"></div>')
-                        .appendTo(window === this.scroller ? document.body : this.scroller)
-                    ;
+                        .appendTo(window === this.scroller ? document.body : this.scroller);
                 }
 
                 this.debugFocusLine.css('top', focusLineOffset + 'px');
