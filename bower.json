@@ -1,6 +1,6 @@
 {
     "name": "jquery-scrollwatch",
-    "description": "jQuery plugin for determining active sections on the page based on scrolling.",
+    "description": "jQuery plugin for determining active sections on the page based on scrolling",
     "license": "MIT",
     "keywords": ["jQuery", "scrollwatch", "scroll", "navigation", "active", "class"],
     "main": [

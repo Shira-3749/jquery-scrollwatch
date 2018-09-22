@@ -3,7 +3,7 @@ ScrollWatch
 
 jQuery plugin for determining active sections on the page based on scrolling.
 
-`Online demo <http://htmlpreview.github.io/?http://github.com/ShiraNai7/jquery-scrollwatch/blob/master/demo.html>`_
+`Online demo (latest version) <http://htmlpreview.github.io/?http://github.com/ShiraNai7/jquery-scrollwatch/blob/master/demo.html>`_
 
 .. contents::
    :depth: 2
@@ -16,6 +16,12 @@ Features
 - mapping a class to a list of elements (e.g. menu items)
 - many options, including multiple modes of resolution
 - works with zoom
+
+
+Requirements
+************
+
+jQuery 1.9.0 or newer
 
 
 Browser support
