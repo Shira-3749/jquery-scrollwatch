@@ -221,18 +221,18 @@ var Shira;
                             view.top,
                             view.bottom,
                             this.sectionBoundaries[forcedIndex][0],
-                            this.sectionBoundaries[forcedIndex][1]
+                            (this.sectionBoundaries[forcedIndex + 1]) ? this.sectionBoundaries[forcedIndex + 1][0] : this.sectionBoundaries[forcedIndex][1]
                         ),
                         section: this.sections[forcedIndex]
                     });
                 } else {
                     // find intersecting sections
-                    for (var i = 0; i < this.sectionBoundaries.length; ++i) {                        
+                    for (var i = 0; i < this.sectionBoundaries.length; ++i) {
                         var intersection = this.getIntersection(
                             view.top,
                             view.bottom,
                             this.sectionBoundaries[i][0],
-                            this.sectionBoundaries[i][1]
+                            (this.sectionBoundaries[i + 1]) ? this.sectionBoundaries[i + 1][0] : this.sectionBoundaries[i][1]
                         );
 
                         if (null !== intersection) {
@@ -246,10 +246,10 @@ var Shira;
 
                     // use section closest to the top of the view if no intersection was found
                     if (0 === focusCandidates.length) {
-                        var sectionClosest = null, sectionOffsetTop;
+                        var sectionClosest = null, sectionOffsetTop = [];
                         for (i = 0; i < this.sectionBoundaries.length; ++i) {
-                            sectionOffsetTop = Math.abs(this.sectionBoundaries[i][0] - view.top);
-                            if (null === sectionClosest || sectionClosest[1] > sectionOffsetTop) {
+                            sectionOffsetTop.push(Math.abs(this.sectionBoundaries[i][0] - view.top));
+                            if (null === sectionClosest || (sectionOffsetTop[i-1] > sectionOffsetTop[i] && view.top > this.sectionBoundaries[i][0])) {
                                 sectionClosest = i;
                             }
                         }

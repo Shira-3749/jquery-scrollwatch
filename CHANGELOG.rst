@@ -1,6 +1,11 @@
 Changelog
 #########
 
+2.1.3
+*****
+
+- Fork: Determine focusCandidates and sectionBoundaries
+
 2.1.2
 *****
 
