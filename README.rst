@@ -133,6 +133,10 @@ Option                 Default            Description
                                           intersected by the bottom of the view, forces the last
                                           section to be active regardless of other conditions.
 ---------------------- ------------------ --------------------------------------------------------
+``clamp``              ``false``          When enabled, the space between two sections is
+                                          considered a part of the first section. Useful when
+                                          there are large gaps between sections.
+---------------------- ------------------ --------------------------------------------------------
 ``throttle``           ``true``           When enabled, the callback is invoked only when the
                                           active section changes
 

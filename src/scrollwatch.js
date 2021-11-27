@@ -4,6 +4,21 @@ var Shira;
 (function (Shira, $) {
     (function (ScrollWatch) {
         /**
+         * Iterate an array (helper)
+         *
+         * @param {Object} thisArg
+         * @param {Array} arr
+         * @param {Function} callback
+         */
+        function foreach(thisArg, arr, callback) {
+            for (var i = 0; i < arr.length; ++i) {
+                if (callback.call(thisArg, i, arr[i]) === false) {
+                    break;
+                }
+            }
+        }
+
+        /**
          * @constructor
          *
          * @param {Array}    sections array of DOM elements
@@ -53,6 +68,7 @@ var Shira;
             viewMarginBottom: 0,
             stickyOffsetTop: 5,
             stickyOffsetBottom: 5,
+            clamp: false,
             focusRatio: 0.38196601125010515,
             focusOffset: 0,
             debugFocusLine: false
@@ -99,7 +115,7 @@ var Shira;
                 while (!scrollable) {
                     elem = elem.offsetParent;
 
-                    if (elem && 1 === elem.nodeType && 'BODY' !== elem.tagName && 'HTML' !== elem.tagName) {
+                    if (elem && elem.nodeType === 1 && 'BODY' !== elem.tagName && 'HTML' !== elem.tagName) {
                         var overflowY = $(elem).css('overflow-y');
                         scrollable = 'auto' === overflowY || 'scroll' === overflowY;
                     } else {
@@ -140,23 +156,32 @@ var Shira;
             updateSectionBoundaries: function () {
                 this.sectionBoundaries = [];
 
-                for (var i = 0; i < this.sections.length; ++i) {
-                    var top = this.getElementY(this.sections[i], this.scroller);
-                    var bottom = top + this.sections[i].offsetHeight;
-                    this.sectionBoundaries.push([top, bottom]);
-                }
+                foreach(this, this.sections, function (i, section) {
+                    var top = this.getElementY(section, this.scroller);
+                    var bottom = top + section.offsetHeight;
+                    this.sectionBoundaries.push({index: i, top: top, bottom: bottom});
+                });
+
                 this.sectionBoundaries.sort(this.sortSectionBoundaries);
+
+                if (this.options.clamp) {
+                    foreach (this, this.sectionBoundaries, function (i, boundary) {
+                        if (i < this.sectionBoundaries.length - 1) {
+                            boundary.bottom = this.sectionBoundaries[i + 1].top - 1;
+                        }
+                    });
+                }
             },
 
             /**
              * Sort calculated section boundaries
              *
-             * @param {Array} a
-             * @param {Array} b
+             * @param {Object} a
+             * @param {Object} b
              * @returns {Number}
              */
             sortSectionBoundaries: function (a, b) {
-                return a[0] - b[0];
+                return a.top - b.top;
             },
 
             /**
@@ -181,10 +206,10 @@ var Shira;
                 var top = $(this.scroller).scrollTop();
                 var bottom = top + this.scrollerVisibleHeight;
                 
-                if (0 !== this.options.viewMarginTop) {
+                if (this.options.viewMarginTop !== 0) {
                     top += this.options.viewMarginTop;
                 }
-                if (0 !== this.options.viewMarginBottom) {
+                if (this.options.viewMarginBottom !== 0) {
                     bottom = Math.max(top + 1, bottom - this.options.viewMarginBottom);
                 }
 
@@ -201,63 +226,68 @@ var Shira;
              * @returns {Array}
              */
             determineFocusCandidates: function (view) {
-                var focusCandidates = [], forcedIndex = null;
+                var that = this, focusCandidates = [], forcedBoundary = null;
 
-                // see if a certain section must be forced
+                // see if a certain boundary must be forced
                 if (this.scrollerFullHeight - view.bottom < this.options.stickyOffsetBottom) {
-                    // always choose last section if the view is near the end
-                    forcedIndex = this.sectionBoundaries.length - 1;
+                    // always choose last boundary if the view is near the end
+                    forcedBoundary = this.sectionBoundaries[this.sectionBoundaries.length - 1];
                 } else if (view.top - this.options.viewMarginTop < this.options.stickyOffsetTop) {
-                    // always choose first section if the view is near the beginning
-                    forcedIndex = 0;
+                    // always choose first boundary if the view is near the beginning
+                    forcedBoundary = this.sectionBoundaries[0];
                 }
 
                 // determine candidates
-                if (null !== forcedIndex) {
+                if (forcedBoundary !== null) {
                     // forced
                     focusCandidates.push({
-                        index: forcedIndex,
+                        index: forcedBoundary.index,
                         intersection: this.getIntersection(
                             view.top,
                             view.bottom,
-                            this.sectionBoundaries[forcedIndex][0],
-                            this.sectionBoundaries[forcedIndex][1]
+                            forcedBoundary.top,
+                            forcedBoundary.bottom
                         ),
-                        section: this.sections[forcedIndex]
+                        section: this.sections[forcedBoundary.index]
                     });
                 } else {
                     // find intersecting sections
-                    for (var i = 0; i < this.sectionBoundaries.length; ++i) {                        
-                        var intersection = this.getIntersection(
-                            view.top,
-                            view.bottom,
-                            this.sectionBoundaries[i][0],
-                            this.sectionBoundaries[i][1]
-                        );
+                    foreach(this, this.sectionBoundaries, function (i, boundary) {
+                        var intersection = that.getIntersection(view.top, view.bottom, boundary.top, boundary.bottom);
 
-                        if (null !== intersection) {
+                        if (intersection !== null) {
                             focusCandidates.push({
-                                index: i,
+                                index: boundary.index,
                                 intersection: intersection,
-                                section: this.sections[i]
+                                section: that.sections[boundary.index]
                             });
                         }
-                    }
+                    });
 
-                    // use section closest to the top of the view if no intersection was found
-                    if (0 === focusCandidates.length) {
-                        var sectionClosest = null, sectionOffsetTop;
-                        for (i = 0; i < this.sectionBoundaries.length; ++i) {
-                            sectionOffsetTop = Math.abs(this.sectionBoundaries[i][0] - view.top);
-                            if (null === sectionClosest || sectionClosest[1] > sectionOffsetTop) {
-                                sectionClosest = i;
+                    // find the closest boundary above if there are no intersections
+                    if (focusCandidates.length === 0) {
+                        var closestBoundary = null;
+
+                        foreach(this, this.sectionBoundaries, function (_, boundary) {
+                            if (
+                                boundary.bottom < view.top
+                                && (
+                                    closestBoundary === null
+                                    || boundary.bottom > closestBoundary.bottom
+                                )
+                            ) {
+                                closestBoundary = boundary;
                             }
+                        });
+
+                        if (closestBoundary === null) {
+                            closestBoundary = this.sectionBoundaries[0];
                         }
 
                         focusCandidates.push({
-                            index: sectionClosest,
+                            index: closestBoundary.index,
                             intersection: null,
-                            section: this.sections[sectionClosest]
+                            section: this.sections[closestBoundary.index]
                         });
                     }
                 }
@@ -276,7 +306,7 @@ var Shira;
                 var that = this;
                 var chosenCandidate = null;
 
-                if (1 === focusCandidates.length) {
+                if (focusCandidates.length === 1) {
                     // single candidate available
                     chosenCandidate = focusCandidates[0];
                 } else {
@@ -296,7 +326,6 @@ var Shira;
 
                         // choose using intersection or distance from the focus line
                         case 'focus-line':
-                            var i;
                             var viewFocusLineOffset = view.top + (view.bottom - view.top) * this.options.focusRatio + this.options.focusOffset;
 
                             if (this.options.debugFocusLine) {
@@ -304,21 +333,21 @@ var Shira;
                             }
 
                             // find direct intersection with the focus line
-                            for (i = 0; i < focusCandidates.length; ++i) {
-                                if (focusCandidates[i].intersection[0] <= viewFocusLineOffset && focusCandidates[i].intersection[1] >= viewFocusLineOffset) {
-                                    chosenCandidate = focusCandidates[i];
-                                    break;
+                            foreach (this, focusCandidates, function (_, candidate) {
+                                if (candidate.intersection[0] <= viewFocusLineOffset && candidate.intersection[1] >= viewFocusLineOffset) {
+                                    chosenCandidate = candidate;
+                                    return false;
                                 }
-                            }
+                            });
 
                             // find nearest candidate if no direct intersection exists
-                            if (null === chosenCandidate) {
-                                for (i = 0; i < focusCandidates.length; ++i) {
-                                    focusCandidates[i].focusRatioOffsetDistance = Math.min(
-                                        Math.abs(focusCandidates[i].intersection[0] - viewFocusLineOffset),
-                                        Math.abs(focusCandidates[i].intersection[1] - viewFocusLineOffset)
+                            if (chosenCandidate === null) {
+                                foreach (this, focusCandidates, function (_, candidate) {
+                                    candidate.focusRatioOffsetDistance = Math.min(
+                                        Math.abs(candidate.intersection[0] - viewFocusLineOffset),
+                                        Math.abs(candidate.intersection[1] - viewFocusLineOffset)
                                     );
-                                }
+                                });
                                 focusCandidates.sort(this.sortFocusCandidatesByDistanceToFocusRatioOffset);
                                 chosenCandidate = focusCandidates[0];
                             }
@@ -326,7 +355,7 @@ var Shira;
 
                         // use custom resolver
                         case 'custom':
-                            if (null === this.options.resolver) {
+                            if (this.options.resolver === null) {
                                 throw new Error('No resolver has been set');
                             }
                             chosenCandidate = this.options.resolver(focusCandidates, view, this);
@@ -352,14 +381,14 @@ var Shira;
             updateDebugFocusLine: function (focusLineOffset) {
                 var that = this;
 
-                if (null === this.debugFocusLine) {
+                if (this.debugFocusLine === null) {
                     this.debugFocusLine = $('<div class="scrollwatch-debug-focus-line" style="position:absolute;left:0;top:0;width:100%;border-bottom:1px solid white;outline:1px solid black;z-index:10000;box-shadow: 0 0 5px black;"></div>')
                         .appendTo(window === this.scroller ? document.body : this.scroller);
                 }
 
                 this.debugFocusLine.css('top', focusLineOffset + 'px');
                 
-                if (null !== this.debugFocusLineTimeout) {
+                if (this.debugFocusLineTimeout !== null) {
                     clearTimeout(this.debugFocusLineTimeout);
                 }
 
@@ -474,17 +503,16 @@ var Shira;
              * @param {Array} newActiveIndexes
              */
             handleFocusChange: function (newActiveIndexes) {
-                var i;
                 var toDeactivate = $(this.currentActiveIndexes).not(newActiveIndexes).get();
                 var toActivate = $(newActiveIndexes).not(this.currentActiveIndexes).get();
 
-                for (i = 0; i < toDeactivate.length; ++i) {
-                    $(this.items[toDeactivate[i]]).removeClass(this.activeClass);
-                }
+                foreach (this, toDeactivate, function (_, itemIndex) {
+                    $(this.items[itemIndex]).removeClass(this.activeClass);
+                });
 
-                for (i = 0; i < toActivate.length; ++i) {
-                    $(this.items[toActivate[i]]).addClass(this.activeClass);
-                }
+                foreach (this, toActivate, function (_, itemIndex) {
+                    $(this.items[itemIndex]).addClass(this.activeClass);
+                });
 
                 this.currentActiveIndexes = newActiveIndexes;
             },
@@ -501,9 +529,9 @@ var Shira;
                     var newActiveIndexes = [];
 
                     if (focus instanceof Array) {
-                        for (var i = 0; i < focus.length; ++i) {
-                            newActiveIndexes.push(focus[i].index);
-                        }
+                        foreach (this, focus, function (_, focus) {
+                            newActiveIndexes.push(focus.index);
+                        });
                     } else {
                         newActiveIndexes.push(focus.index);
                     }

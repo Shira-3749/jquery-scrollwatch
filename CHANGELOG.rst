@@ -1,6 +1,13 @@
 Changelog
 #########
 
+2.2.0
+*****
+
+- added the "clamp" option
+- fixed fallback to the closest section if none are in view
+
+
 2.1.2
 *****
 
